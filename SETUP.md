@@ -45,8 +45,8 @@ npm run dev
 Open `.env` and fill in every variable:
 
 ```env
-# Groq (AI features)
-VITE_GROQ_API_KEY=gsk_...
+# AI Proxy — Cloudflare Worker URL, NOT a raw Groq key (see worker/README.md)
+VITE_GROQ_PROXY_URL=https://cookingina-groq-proxy.your-subdomain.workers.dev
 
 # Firebase (Auth + Database + Hosting)
 VITE_FIREBASE_API_KEY=AIza...
@@ -142,6 +142,11 @@ cookingina/
 
 ## 🤖 Groq API Setup (AI Features)
 
+⚠️ **The Groq key does NOT go in `.env` directly.** If it did, it would ship
+inside the JS bundle and anyone could steal it from devtools. Instead it's
+set as a secret on a small Cloudflare Worker that proxies the requests —
+free, no credit card, ~5 minutes to set up. Full walkthrough: `worker/README.md`.
+
 ### Step 1 — Create account
 1. Go to **[https://console.groq.com](https://console.groq.com)**
 2. Sign up with Google or email
@@ -152,10 +157,22 @@ cookingina/
 2. Click **"Create API Key"**
 3. Name it `cookingina`
 4. Copy the key — **you only see it once!**
-5. Paste into `.env`:
-   ```
-   VITE_GROQ_API_KEY=gsk_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-   ```
+
+### Step 3 — Deploy the proxy and give it the key
+Follow `worker/README.md`. Short version:
+```
+npm install -g wrangler
+cd worker
+wrangler login
+wrangler secret put GROQ_API_KEY    # paste your gsk_... key here
+wrangler deploy                      # prints your proxy URL
+```
+
+### Step 4 — Point the app at the proxy
+Paste the printed URL into `.env`:
+```
+VITE_GROQ_PROXY_URL=https://cookingina-groq-proxy.your-subdomain.workers.dev
+```
 
 ### AI Models Used
 | Model | Used For | Speed |
@@ -547,9 +564,13 @@ npx cap open android        # Open Android Studio
 → Firestore composite index not created yet
 → Click the auto-generated link in the browser console error, wait 2 minutes
 
-### "AI features say 'API key not set'"
-→ `VITE_GROQ_API_KEY` is missing from `.env`
-→ Make sure `.env` exists (not just `.env.example`) and has the key
+### "AI features say 'proxy URL not set'"
+→ `VITE_GROQ_PROXY_URL` is missing from `.env`
+→ Deploy the Worker first (`worker/README.md`), then paste its URL into `.env`
+
+### "AI features say 'Origin not allowed'"
+→ Your site's URL isn't in the Worker's `ALLOWED_ORIGINS` (in `worker/wrangler.toml`)
+→ Add it, then run `wrangler deploy` again from the `worker/` folder
 
 ### "MealDB recipes not loading"
 → TheMealDB free API is rate-limited

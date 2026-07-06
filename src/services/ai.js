@@ -1,5 +1,6 @@
-const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions'
-const GROQ_KEY = import.meta.env.VITE_GROQ_API_KEY || ''
+// Calls go through a Cloudflare Worker proxy (see /worker) so the Groq
+// API key never ships in the client bundle. See worker/README.md for setup.
+const PROXY_URL = import.meta.env.VITE_GROQ_PROXY_URL || ''
 
 const MODELS = {
   main: 'llama-3.3-70b-versatile',
@@ -8,15 +9,15 @@ const MODELS = {
 }
 
 async function groqCall(model, messages, maxTokens = 2000) {
-  if (!GROQ_KEY) throw new Error('VITE_GROQ_API_KEY not set in .env')
-  const res = await fetch(GROQ_API_URL, {
+  if (!PROXY_URL) throw new Error('VITE_GROQ_PROXY_URL not set in .env — see worker/README.md')
+  const res = await fetch(PROXY_URL, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${GROQ_KEY}` },
-    body: JSON.stringify({ model, messages, max_tokens: maxTokens, temperature: 0.5 })
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ model, messages, max_tokens: maxTokens })
   })
   if (!res.ok) {
     const e = await res.json().catch(() => ({}))
-    throw new Error(e.error?.message || `Groq error ${res.status}`)
+    throw new Error(e.error?.message || e.error || `AI proxy error ${res.status}`)
   }
   const d = await res.json()
   return d.choices?.[0]?.message?.content || ''

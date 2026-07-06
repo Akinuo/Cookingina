@@ -11,6 +11,10 @@ build/
 .env.*
 !.env.example
 
+# Cloudflare Workers local state (never contains secrets, but no need to commit)
+worker/.wrangler/
+worker/node_modules/
+
 # Logs
 *.log
 npm-debug.log*

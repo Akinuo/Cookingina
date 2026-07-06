@@ -1,0 +1,15 @@
+name = "cookingina-groq-proxy"
+main = "groq-proxy.js"
+compatibility_date = "2026-07-01"
+
+# Comma-separated list of origins allowed to call this proxy.
+# Supports exact origins and "*.example.com" wildcards.
+# Set this to your real deployed origin(s) before going live —
+# leaving it as "*" works for testing but allows any website to
+# use your Groq quota.
+[vars]
+ALLOWED_ORIGINS = "http://localhost:5173,https://*.web.app,https://*.firebaseapp.com"
+
+# GROQ_API_KEY is NOT set here — it's a secret, not a var.
+# Set it with:  wrangler secret put GROQ_API_KEY
+# Never put API keys in this file or commit them to git.

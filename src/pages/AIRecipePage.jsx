@@ -47,7 +47,7 @@ export default function AIRecipePage() {
       const result = await generateRecipe(ingredients, prefs)
       setRecipe(result)
     } catch (e) {
-      setError(e.message || 'AI generation failed. Check your VITE_GROQ_API_KEY in .env')
+      setError(e.message || 'AI generation failed. Check your VITE_GROQ_PROXY_URL in .env')
     } finally { setLoading(false) }
   }
 
