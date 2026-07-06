@@ -58,7 +58,8 @@ export const FILIPINO_RECIPES = [
     rating:4.8,reviews:3120
   },
   {
-    id:'kare-001',slug:'kare-kare',title:'Kare-Kare',emoji:'🥜',
+    id:'kare-001',
+    image:'https://images.unsplash.com/photo-1445979323117-80453f573b71?w=800&q=80',slug:'kare-kare',title:'Kare-Kare',emoji:'🥜',
     category:'Main Dish',subcategory:'Beef',region:'Pampanga',
     difficulty:'Hard',prep_time:30,cook_time:120,servings:8,
     description:'Iconic peanut-based oxtail stew served with fermented shrimp paste (bagoong).',
@@ -86,7 +87,8 @@ export const FILIPINO_RECIPES = [
     rating:4.8,reviews:2341
   },
   {
-    id:'lechon-001',slug:'lechon-kawali',title:'Lechon Kawali',emoji:'🥓',
+    id:'lechon-001',
+    image:'https://images.unsplash.com/photo-1759670338079-8633e15653f2?w=800&q=80',slug:'lechon-kawali',title:'Lechon Kawali',emoji:'🥓',
     category:'Main Dish',subcategory:'Pork',region:'Nationwide',
     difficulty:'Medium',prep_time:10,cook_time:90,servings:6,
     description:'Crispy deep-fried pork belly with crunchy crackling skin. Filipino party staple.',
@@ -220,7 +222,8 @@ export const FILIPINO_RECIPES = [
     rating:4.5,reviews:987
   },
   {
-    id:'ginataang-001',slug:'ginataang-manok',title:'Ginataang Manok',emoji:'🫙',
+    id:'ginataang-001',
+    image:'https://images.unsplash.com/photo-1708782344490-9026aaa5eec7?w=800&q=80',slug:'ginataang-manok',title:'Ginataang Manok',emoji:'🫙',
     category:'Main Dish',subcategory:'Chicken',region:'Bicolandia',
     difficulty:'Easy',prep_time:15,cook_time:45,servings:5,
     description:'Creamy coconut milk chicken stew from Bicol with green chili, ginger and lemongrass.',
@@ -249,7 +252,8 @@ export const FILIPINO_RECIPES = [
 
   // ─── NOODLES ──────────────────────────────────────────────────
   {
-    id:'pancit-001',slug:'pancit-canton',title:'Pancit Canton',emoji:'🍜',
+    id:'pancit-001',
+    image:'https://images.unsplash.com/photo-1578419997901-b409e7e400b8?w=800&q=80',slug:'pancit-canton',title:'Pancit Canton',emoji:'🍜',
     category:'Noodles',subcategory:'Stir Fry',region:'Nationwide',
     difficulty:'Easy',prep_time:20,cook_time:20,servings:6,
     description:'Classic stir-fried egg noodles with vegetables, shrimp and pork — birthday staple for long life.',
@@ -333,7 +337,8 @@ export const FILIPINO_RECIPES = [
     rating:4.9,reviews:4123
   },
   {
-    id:'arroz-001',slug:'arroz-caldo',title:'Arroz Caldo',emoji:'🍵',
+    id:'arroz-001',
+    image:'https://images.unsplash.com/photo-1766761562530-c8dd12c96d9a?w=800&q=80',slug:'arroz-caldo',title:'Arroz Caldo',emoji:'🍵',
     category:'Rice',subcategory:'Porridge',region:'Nationwide',
     difficulty:'Easy',prep_time:10,cook_time:45,servings:6,
     description:'Comforting ginger-scented Filipino rice porridge with chicken, topped with crispy garlic and egg.',
@@ -448,7 +453,8 @@ export const FILIPINO_RECIPES = [
     rating:4.9,reviews:3890
   },
   {
-    id:'kwek-001',slug:'kwek-kwek',title:'Kwek Kwek',emoji:'🟠',
+    id:'kwek-001',
+    image:'https://images.unsplash.com/photo-1565733618599-cb82f14f34ac?w=800&q=80',slug:'kwek-kwek',title:'Kwek Kwek',emoji:'🟠',
     category:'Snack',subcategory:'Street Food',region:'Nationwide',
     difficulty:'Easy',prep_time:15,cook_time:10,servings:4,
     description:'Iconic Filipino street food — quail eggs coated in orange batter and deep-fried, served with vinegar dip.',
@@ -477,7 +483,8 @@ export const FILIPINO_RECIPES = [
 
   // ─── DESSERTS ─────────────────────────────────────────────────
   {
-    id:'leche-001',slug:'leche-flan',title:'Leche Flan',emoji:'🍮',
+    id:'leche-001',
+    image:'https://images.unsplash.com/photo-1702728109878-c61a98d80491?w=800&q=80',slug:'leche-flan',title:'Leche Flan',emoji:'🍮',
     category:'Dessert',subcategory:'Custard',region:'Nationwide',
     difficulty:'Medium',prep_time:20,cook_time:60,servings:8,
     description:'Silky rich Filipino caramel custard — the crown jewel of every Filipino celebration.',
@@ -501,7 +508,8 @@ export const FILIPINO_RECIPES = [
     rating:4.9,reviews:3678
   },
   {
-    id:'halo-001',slug:'halo-halo',title:'Halo-Halo',emoji:'🧁',
+    id:'halo-001',
+    image:'https://images.unsplash.com/photo-1533622597524-a1215e26c0a1?w=800&q=80',slug:'halo-halo',title:'Halo-Halo',emoji:'🧁',
     category:'Dessert',subcategory:'Cold',region:'Nationwide',
     difficulty:'Easy',prep_time:20,cook_time:0,servings:4,
     description:'The ultimate Filipino summer dessert — shaved ice with sweetened beans, fruits, jello and ube ice cream.',
@@ -1060,7 +1068,8 @@ export const FILIPINO_RECIPES = [
     tips:'Use only the freshest sashimi-grade fish. The vinegar cures but does not fully cook the fish.',rating:4.7,reviews:1230
   },
   {
-    id:'adobong-kangkong-001',slug:'adobong-kangkong',title:'Adobong Kangkong',emoji:'🥬',
+    id:'adobong-kangkong-001',
+    image:'https://images.unsplash.com/photo-1565006114230-83988e94d432?w=800&q=80',slug:'adobong-kangkong',title:'Adobong Kangkong',emoji:'🥬',
     category:'Main Dish',subcategory:'Vegetable',region:'Nationwide',
     difficulty:'Easy',prep_time:10,cook_time:10,servings:4,
     description:'Water spinach stir-fried in garlic, vinegar and soy sauce — the quickest most nutritious Filipino vegetable dish.',
