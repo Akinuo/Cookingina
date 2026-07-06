@@ -9,6 +9,7 @@ import { uploadPostImage } from '../services/cloudinary'
 import { useAuth } from '../hooks/useAuth'
 import { useToast } from '../hooks/useToast'
 import ToastContainer from '../components/ui/ToastContainer'
+import { IconChefHat } from '../components/icons/FoodIcons'
 
 const FOOD_EMOJIS = ['🍳','🍗','🍲','🥜','🍜','🍚','🥟','🍖','🥩','🐟','🍮','🌶️','🥗','🥘','🧆','🫕','🍱','🥞','🫙','🍝']
 
@@ -32,7 +33,7 @@ function Avatar({ name, photo, size = 40 }) {
   return (
     <div style={{
       width:size, height:size, borderRadius:'50%',
-      background:'linear-gradient(135deg,var(--clay-lt),var(--clay-dk))',
+      background:'linear-gradient(135deg,var(--brand-lt),var(--brand-dk))',
       color:'white', display:'flex', alignItems:'center', justifyContent:'center',
       fontSize:size*0.36, fontWeight:700, flexShrink:0, letterSpacing:'-0.02em',
     }}>{initials}</div>
@@ -240,7 +241,7 @@ export default function CommunityPage({ onUserClick }) {
                 </div>
               ) : (
                 <button className="new-post-img-upload-btn" onClick={() => fileRef.current?.click()}>
-                  <ImagePlus size={20} style={{ color:'var(--clay)' }}/>
+                  <ImagePlus size={20} style={{ color:'var(--brand)' }}/>
                   <span>Upload food photo</span>
                   <span className="new-post-img-hint">JPG, PNG or WEBP · max 10MB</span>
                 </button>
@@ -299,7 +300,7 @@ export default function CommunityPage({ onUserClick }) {
 
       {!loading && posts.length===0 && (
         <div className="empty-state">
-          <span className="empty-state-icon">👨‍🍳</span>
+          <IconChefHat size={40} strokeWidth={1.3} className="empty-state-icon-svg"/>
           <h3>Walang posts pa!</h3>
           <p>Be the first to share a recipe with the CookingINA community!</p>
           <button className="btn btn-primary mt-3" onClick={() => setShowNew(true)}>
@@ -329,7 +330,7 @@ export default function CommunityPage({ onUserClick }) {
                   <span className="post-user-meta">{post.userHandle} · {timeAgo(post.createdAt)}</span>
                 </div>
                 <div className="post-header-right">
-                  {post.recipe && <span className="tag tag-clay post-recipe-tag">{post.recipe}</span>}
+                  {post.recipe && <span className="tag tag-brand post-recipe-tag">{post.recipe}</span>}
                   {isOwner && (
                     <button className="post-delete-btn" onClick={() => deletePost(post.id)} title="Delete post">
                       <Trash2 size={14}/>

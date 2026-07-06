@@ -4,8 +4,17 @@ import RecipeCard from '../components/recipe/RecipeCard'
 import RecipeDetail from '../components/recipe/RecipeDetail'
 import { FILIPINO_RECIPES, CATEGORIES } from '../data/recipes'
 import { fetchFilipinoMeals, fetchMealDetails, normalizeMealDBRecipe } from '../services/mealdb'
+import {
+  IconAllDishes, IconMainDish, IconSoup, IconNoodles,
+  IconRice, IconSnack, IconDessert, IconBreakfast,
+} from '../components/icons/FoodIcons'
 
 const DIFFICULTIES = ['Easy','Medium','Hard']
+
+const CAT_ICONS = {
+  all: IconAllDishes, mainDish: IconMainDish, soup: IconSoup, noodles: IconNoodles,
+  rice: IconRice, snack: IconSnack, dessert: IconDessert, breakfast: IconBreakfast,
+}
 
 export default function HomePage({ onNavigate }) {
   const [search, setSearch]     = useState('')
@@ -131,12 +140,16 @@ export default function HomePage({ onNavigate }) {
         </div>
 
         <div className="cat-scroll discover-cats">
-          {CATEGORIES.map(cat => (
-            <button key={cat.id} className={`cat-pill${category===cat.id?' active':''}`}
-              onClick={() => setCategory(cat.id)}>
-              <span className="cat-label">{cat.label}</span>
-            </button>
-          ))}
+          {CATEGORIES.map(cat => {
+            const Icon = CAT_ICONS[cat.icon]
+            return (
+              <button key={cat.id} className={`cat-pill${category===cat.id?' active':''}`}
+                onClick={() => setCategory(cat.id)}>
+                {Icon && <Icon size={14} strokeWidth={1.8} className="cat-icon"/>}
+                <span className="cat-label">{cat.label}</span>
+              </button>
+            )
+          })}
         </div>
 
         {showFilters && (

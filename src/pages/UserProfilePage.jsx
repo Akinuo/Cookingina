@@ -21,7 +21,7 @@ function Avatar({ name, photo, size = 72 }) {
   const initials = (name||'U').split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase()
   if (photo) return <img src={photo} alt={name} style={{ width:size, height:size, borderRadius:'50%', objectFit:'cover', display:'block' }}/>
   return (
-    <div style={{ width:size, height:size, borderRadius:'50%', background:'linear-gradient(135deg,var(--clay-lt),var(--clay-dk))', color:'white', display:'flex', alignItems:'center', justifyContent:'center', fontSize:size*0.36, fontWeight:700 }}>
+    <div style={{ width:size, height:size, borderRadius:'50%', background:'linear-gradient(135deg,var(--brand-lt),var(--brand-dk))', color:'white', display:'flex', alignItems:'center', justifyContent:'center', fontSize:size*0.36, fontWeight:700 }}>
       {initials}
     </div>
   )
@@ -119,7 +119,7 @@ export default function UserProfilePage({ targetUid, onBack }) {
 
   if (!targetProfile) return (
     <div className="empty-state">
-      <span className="empty-state-icon">👤</span>
+      <Users size={40} strokeWidth={1.3} className="empty-state-icon-svg"/>
       <h3>User not found</h3>
       <p>This profile doesn't exist or has been removed.</p>
       <button className="btn btn-secondary mt-3" onClick={onBack}><ArrowLeft size={15}/> Go back</button>
@@ -206,7 +206,7 @@ export default function UserProfilePage({ targetUid, onBack }) {
 
       {!loadingPosts && posts.length === 0 && (
         <div className="empty-state" style={{ padding:'32px 0' }}>
-          <span className="empty-state-icon" style={{ fontSize:'2.5rem' }}>📝</span>
+          <BookOpen size={36} strokeWidth={1.3} className="empty-state-icon-svg" style={{ marginBottom:'var(--space-2)' }}/>
           <h3>No posts yet</h3>
           <p>{isMe ? 'Share your first recipe with the community!' : `${targetProfile.displayName?.split(' ')[0]} hasn't posted anything yet.`}</p>
         </div>
@@ -221,7 +221,7 @@ export default function UserProfilePage({ targetUid, onBack }) {
               <div className="user-post-thumb-emoji">{post.emoji || '🍳'}</div>
             )}
             <div className="user-post-thumb-overlay">
-              <span className="user-post-thumb-likes">❤️ {post.likes || 0}</span>
+              <span className="user-post-thumb-likes"><Heart size={11} fill="currentColor" strokeWidth={0}/> {post.likes || 0}</span>
               {post.recipe && <span className="user-post-thumb-tag">{post.recipe}</span>}
             </div>
             <div className="user-post-thumb-text line-clamp-2">{post.text}</div>

@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { Send, ChefHat, RotateCcw } from 'lucide-react'
+import { Send, ChefHat, RotateCcw, Lightbulb, AlertTriangle } from 'lucide-react'
 import { askCookingAssistant } from '../services/ai'
 
 const SUGGESTIONS = [
@@ -51,7 +51,7 @@ export default function AIAssistPage() {
     <div>
       <div className="flex items-center justify-between mb-6" style={{ flexWrap: 'wrap', gap: 12 }}>
         <div className="flex items-center gap-3">
-          <div style={{ width: 48, height: 48, borderRadius: 'var(--radius-sm)', background: 'linear-gradient(135deg,#7B4F9E,#5A2D82)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ width: 48, height: 48, borderRadius: 'var(--r-md)', background: 'linear-gradient(135deg,#7B4F9E,#5A2D82)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <ChefHat size={24} color="white" />
           </div>
           <div>
@@ -69,7 +69,7 @@ export default function AIAssistPage() {
             {messages.map((msg, i) => (
               <div key={i} className={`chat-msg ${msg.role}`}>
                 {msg.role === 'ai' && (
-                  <div className="chat-avatar" style={{ background: 'linear-gradient(135deg,var(--clay),var(--clay-dk))' }}>INA</div>
+                  <div className="chat-avatar" style={{ background: 'linear-gradient(135deg,var(--brand),var(--brand-dk))' }}>INA</div>
                 )}
                 <div className="chat-bubble">
                   {msg.content.split('\n').map((line, j) => (
@@ -80,10 +80,10 @@ export default function AIAssistPage() {
             ))}
             {loading && (
               <div className="chat-msg ai">
-                <div className="chat-avatar" style={{ background: 'linear-gradient(135deg,var(--clay),var(--clay-dk))' }}>INA</div>
+                <div className="chat-avatar" style={{ background: 'linear-gradient(135deg,var(--brand),var(--brand-dk))' }}>INA</div>
                 <div className="chat-bubble">
                   <span style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
-                    <span className="spinner spinner-sm" style={{ borderTopColor: 'var(--clay)', borderColor: 'rgba(196,98,45,0.2)' }} />
+                    <span className="spinner spinner-sm" style={{ borderTopColor: 'var(--brand)', borderColor: 'rgba(196,98,45,0.2)' }} />
                     <span className="text-muted" style={{ fontSize: '0.8rem' }}>Thinking…</span>
                   </span>
                 </div>
@@ -113,16 +113,16 @@ export default function AIAssistPage() {
         <div className="ai-chat-sidebar" style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           <div className="card card-elevated">
             <div className="card-body">
-              <div className="section-title mb-3" style={{ fontSize: '0.9rem' }}>💡 Try asking…</div>
+              <div className="section-title mb-3" style={{ fontSize: '0.9rem', display:'flex', alignItems:'center', gap:6 }}><Lightbulb size={15} style={{ color:'var(--brand)' }}/> Try asking…</div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                 {SUGGESTIONS.map(s => (
                   <button
                     key={s}
                     onClick={() => send(s)}
                     disabled={loading}
-                    style={{ textAlign: 'left', padding: '8px 10px', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', fontSize: '0.78rem', color: 'var(--char)', background: 'var(--parch)', cursor: 'pointer', lineHeight: 1.4, transition: 'all var(--transition)' }}
-                    onMouseEnter={e => { e.target.style.borderColor = 'var(--clay)'; e.target.style.color = 'var(--clay)' }}
-                    onMouseLeave={e => { e.target.style.borderColor = 'var(--border)'; e.target.style.color = 'var(--char)' }}
+                    style={{ textAlign: 'left', padding: '8px 10px', border: '1px solid var(--border)', borderRadius: 'var(--r-sm)', fontSize: '0.78rem', color: 'var(--ink-2)', background: 'var(--surface-2)', cursor: 'pointer', lineHeight: 1.4, transition: 'all var(--t)' }}
+                    onMouseEnter={e => { e.target.style.borderColor = 'var(--brand)'; e.target.style.color = 'var(--brand)' }}
+                    onMouseLeave={e => { e.target.style.borderColor = 'var(--border)'; e.target.style.color = 'var(--ink-2)' }}
                   >
                     {s}
                   </button>
@@ -133,13 +133,14 @@ export default function AIAssistPage() {
 
           <div className="card card-elevated">
             <div className="card-body">
-              <div className="text-xs font-600 mb-2" style={{ color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>About Ina</div>
+              <div className="text-xs font-600 mb-2" style={{ color: 'var(--ink-3)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>About Ina</div>
               <p className="text-xs text-muted" style={{ lineHeight: 1.6 }}>
                 Ina is powered by <strong>Llama 3.1 8B Instant</strong> for fast, conversational cooking help. She knows Filipino cuisine deeply — regional dishes, techniques, substitutions, and more.
               </p>
               <div className="divider" />
-              <p className="text-xxs text-muted" style={{ lineHeight: 1.5 }}>
-                ⚠️ AI responses may not always be 100% accurate. Always verify cooking temperatures and food safety guidelines.
+              <p className="text-xxs text-muted" style={{ lineHeight: 1.5, display:'flex', gap:5, alignItems:'flex-start' }}>
+                <AlertTriangle size={12} style={{ flexShrink:0, marginTop:2, color:'var(--amber)' }}/>
+                <span>AI responses may not always be 100% accurate. Always verify cooking temperatures and food safety guidelines.</span>
               </p>
             </div>
           </div>

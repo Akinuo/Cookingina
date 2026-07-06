@@ -1135,25 +1135,26 @@ export const FILIPINO_RECIPES = [
 ]
 
 // ─── Category Index ────────────────────────────────────────────
+// `icon` keys map to premium SVG components in components/icons/FoodIcons.jsx
 export const CATEGORIES = [
-  { id:'all',       label:'All Dishes',     emoji:'🍽️', count: 0 },
-  { id:'Main Dish', label:'Main Dish',      emoji:'🍖', count: 0 },
-  { id:'Soup',      label:'Soups',          emoji:'🍲', count: 0 },
-  { id:'Noodles',   label:'Noodles',        emoji:'🍜', count: 0 },
-  { id:'Rice',      label:'Rice',           emoji:'🍚', count: 0 },
-  { id:'Snack',     label:'Snacks',         emoji:'🥟', count: 0 },
-  { id:'Dessert',   label:'Desserts',       emoji:'🍮', count: 0 },
-  { id:'Breakfast', label:'Breakfast',      emoji:'🍳', count: 0 },
+  { id:'all',       label:'All Dishes',     icon:'all',       count: 0 },
+  { id:'Main Dish', label:'Main Dish',      icon:'mainDish',  count: 0 },
+  { id:'Soup',      label:'Soups',          icon:'soup',      count: 0 },
+  { id:'Noodles',   label:'Noodles',        icon:'noodles',   count: 0 },
+  { id:'Rice',      label:'Rice',           icon:'rice',      count: 0 },
+  { id:'Snack',     label:'Snacks',         icon:'snack',     count: 0 },
+  { id:'Dessert',   label:'Desserts',       icon:'dessert',   count: 0 },
+  { id:'Breakfast', label:'Breakfast',      icon:'breakfast', count: 0 },
 ]
 
 // ─── Price Categories ──────────────────────────────────────────
 export const PRICE_CATEGORIES = [
-  { id:'vegetables', label:'Vegetables',    emoji:'🥬', items:['Tomato','Onion','Garlic','Potato','Cabbage','Pechay','Kangkong','Ampalaya','Sitaw','Carrot','Eggplant','Squash','Ginger','Lemongrass','Bell pepper'] },
-  { id:'meat',       label:'Meat & Poultry',emoji:'🍖', items:['Chicken whole','Chicken breast','Pork belly liempo','Pork kasim','Ground pork','Beef sirloin','Beef shank','Pork ribs','Chicken thigh','Ox tail'] },
-  { id:'seafood',    label:'Seafood',       emoji:'🐟', items:['Tilapia','Bangus milkfish','Galunggong','Shrimp hipon','Squid pusit','Tahong mussels','Tuna','Salmon','Crab alimango','Clams halaan'] },
-  { id:'canned',     label:'Canned Goods',  emoji:'🥫', items:['Sardines','Corned beef','Tuna flakes','Tomato sauce','Coconut milk','Liver spread','Century tuna','Spam','Coconut cream','Fruit cocktail'] },
-  { id:'rice',       label:'Rice & Grains', emoji:'🌾', items:['Regular rice NFA','Premium rice','Sinandomeng','Dinorado','Glutinous rice malagkit','Oatmeal','Corn grits','All-purpose flour','Bread crumbs','Cornstarch'] },
-  { id:'condiments', label:'Condiments',    emoji:'🫙', items:['Soy sauce','White vinegar','Fish sauce patis','Oyster sauce','Banana ketchup','Coconut vinegar','Bagoong alamang','Bagoong isda','Worcestershire sauce','Sesame oil'] },
-  { id:'dairy',      label:'Dairy & Eggs',  emoji:'🥚', items:['Eggs per dozen','Evaporated milk','Condensed milk','Butter','Quickmelt cheese','Fresh milk 1L','Cream cheese','All-purpose cream','Quail eggs per 30','Margarine'] },
-  { id:'spices',     label:'Spices & Herbs',emoji:'🌶️', items:['Black pepper','Bay leaves','Siling labuyo','Siling haba','Pandan leaves','Star anise','Turmeric','Annatto atsuete','Coriander','Cinnamon'] },
+  { id:'vegetables', label:'Vegetables',    icon:'vegetables', items:['Tomato','Onion','Garlic','Potato','Cabbage','Pechay','Kangkong','Ampalaya','Sitaw','Carrot','Eggplant','Squash','Ginger','Lemongrass','Bell pepper'] },
+  { id:'meat',       label:'Meat & Poultry',icon:'meat',       items:['Chicken whole','Chicken breast','Pork belly liempo','Pork kasim','Ground pork','Beef sirloin','Beef shank','Pork ribs','Chicken thigh','Ox tail'] },
+  { id:'seafood',    label:'Seafood',       icon:'seafood',    items:['Tilapia','Bangus milkfish','Galunggong','Shrimp hipon','Squid pusit','Tahong mussels','Tuna','Salmon','Crab alimango','Clams halaan'] },
+  { id:'canned',     label:'Canned Goods',  icon:'canned',     items:['Sardines','Corned beef','Tuna flakes','Tomato sauce','Coconut milk','Liver spread','Century tuna','Spam','Coconut cream','Fruit cocktail'] },
+  { id:'rice',       label:'Rice & Grains', icon:'grains',     items:['Regular rice NFA','Premium rice','Sinandomeng','Dinorado','Glutinous rice malagkit','Oatmeal','Corn grits','All-purpose flour','Bread crumbs','Cornstarch'] },
+  { id:'condiments', label:'Condiments',    icon:'condiments', items:['Soy sauce','White vinegar','Fish sauce patis','Oyster sauce','Banana ketchup','Coconut vinegar','Bagoong alamang','Bagoong isda','Worcestershire sauce','Sesame oil'] },
+  { id:'dairy',      label:'Dairy & Eggs',  icon:'dairy',      items:['Eggs per dozen','Evaporated milk','Condensed milk','Butter','Quickmelt cheese','Fresh milk 1L','Cream cheese','All-purpose cream','Quail eggs per 30','Margarine'] },
+  { id:'spices',     label:'Spices & Herbs',icon:'spices',     items:['Black pepper','Bay leaves','Siling labuyo','Siling haba','Pandan leaves','Star anise','Turmeric','Annatto atsuete','Coriander','Cinnamon'] },
 ]

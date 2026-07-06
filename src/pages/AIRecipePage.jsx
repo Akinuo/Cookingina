@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react'
 import { Sparkles, Plus, RotateCcw, Lightbulb, AlertCircle, Clock, Users } from 'lucide-react'
 import { generateRecipe } from '../services/ai'
+import { IconChefHat } from '../components/icons/FoodIcons'
 
 const QUICK_ADD = [
   'Chicken','Pork','Beef','Bangus','Shrimp',
@@ -56,7 +57,7 @@ export default function AIRecipePage() {
     <div className="ai-recipe-page">
       {/* Header */}
       <div className="page-header-row">
-        <div className="page-header-icon" style={{ background:'linear-gradient(135deg,var(--clay),var(--clay-dk))' }}>
+        <div className="page-header-icon" style={{ background:'linear-gradient(135deg,var(--brand),var(--brand-dk))' }}>
           <Sparkles size={22} color="white" />
         </div>
         <div>
@@ -164,7 +165,7 @@ export default function AIRecipePage() {
 
           {/* Tip */}
           <div className="ai-tip-box">
-            <Lightbulb size={14} style={{ color:'var(--clay)', flexShrink:0 }} />
+            <Lightbulb size={14} style={{ color:'var(--brand)', flexShrink:0 }} />
             <span>Add 3–8 ingredients. The AI generates authentic Filipino recipes with measurements, steps, nutrition, and ₱ cost estimates.</span>
           </div>
         </div>
@@ -182,9 +183,9 @@ export default function AIRecipePage() {
           {/* Empty state */}
           {!recipe && !loading && !error && (
             <div className="empty-state">
-              <span className="empty-state-icon">👨‍🍳</span>
+              <IconChefHat size={44} strokeWidth={1.3} className="empty-state-icon-svg"/>
               <h3>Ready to cook!</h3>
-              <p>Add your ingredients on the left and click Generate. Grok will suggest an authentic Filipino recipe just for you.</p>
+              <p>Add your ingredients on the left and click Generate. The AI will suggest an authentic Filipino recipe just for you.</p>
             </div>
           )}
 
@@ -201,7 +202,7 @@ export default function AIRecipePage() {
           {recipe && !loading && (
             <div className="card card-elevated animate-fade" style={{ overflow:'hidden' }}>
               {/* AI badge header */}
-              <div style={{ background:'linear-gradient(135deg,var(--clay),var(--clay-dk))', padding:'8px 18px', display:'flex', alignItems:'center', gap:8 }}>
+              <div style={{ background:'linear-gradient(135deg,var(--brand),var(--brand-dk))', padding:'8px 18px', display:'flex', alignItems:'center', gap:8 }}>
                 <Sparkles size={13} color="white" />
                 <span style={{ color:'white', fontSize:'0.7rem', fontWeight:700, textTransform:'uppercase', letterSpacing:'0.08em' }}>
                   AI Generated · Llama 3.3 70B
@@ -211,7 +212,7 @@ export default function AIRecipePage() {
               <div className="card-body" style={{ gap:16 }}>
                 {/* Title */}
                 <div>
-                  <h2 style={{ fontFamily:'var(--font-display)', fontSize:'clamp(1.1rem,3vw,1.5rem)', fontWeight:700, marginBottom:5 }}>
+                  <h2 style={{ fontFamily:'var(--font-serif)', fontSize:'clamp(1.1rem,3vw,1.5rem)', fontWeight:700, marginBottom:5 }}>
                     {recipe.title}
                   </h2>
                   {recipe.description && (
@@ -276,8 +277,8 @@ export default function AIRecipePage() {
                   <div>
                     <div className="section-title mb-2" style={{ fontSize:'0.9rem' }}>Nutrition / Serving</div>
                     <div className="nutrition-grid">
-                      <div className="nutrition-card"><div className="nutrition-val" style={{ color:'var(--clay)' }}>{recipe.nutrition.calories}</div><div className="nutrition-lbl">kcal</div></div>
-                      <div className="nutrition-card"><div className="nutrition-val" style={{ color:'var(--leaf)' }}>{recipe.nutrition.protein_g}g</div><div className="nutrition-lbl">protein</div></div>
+                      <div className="nutrition-card"><div className="nutrition-val" style={{ color:'var(--brand)' }}>{recipe.nutrition.calories}</div><div className="nutrition-lbl">kcal</div></div>
+                      <div className="nutrition-card"><div className="nutrition-val" style={{ color:'var(--green)' }}>{recipe.nutrition.protein_g}g</div><div className="nutrition-lbl">protein</div></div>
                       <div className="nutrition-card"><div className="nutrition-val" style={{ color:'#0D6EFD' }}>{recipe.nutrition.carbs_g}g</div><div className="nutrition-lbl">carbs</div></div>
                       <div className="nutrition-card"><div className="nutrition-val">{recipe.nutrition.fat_g}g</div><div className="nutrition-lbl">fat</div></div>
                     </div>
@@ -286,8 +287,9 @@ export default function AIRecipePage() {
 
                 {/* Tips */}
                 {recipe.tips && (
-                  <div style={{ background:'var(--clay-pale)', borderRadius:'var(--radius-sm)', padding:'12px 14px', fontSize:'0.875rem', lineHeight:1.6 }}>
-                    💡 <strong>Tip:</strong> {recipe.tips}
+                  <div className="ai-tip-box" style={{ background:'var(--brand-pale)' }}>
+                    <Lightbulb size={14} style={{ color:'var(--brand)', flexShrink:0, marginTop:1 }}/>
+                    <span><strong>Tip:</strong> {recipe.tips}</span>
                   </div>
                 )}
 

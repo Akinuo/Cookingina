@@ -14,6 +14,7 @@ import CommunityPage from './pages/CommunityPage'
 import ProfilePage from './pages/ProfilePage'
 import UserProfilePage from './pages/UserProfilePage'
 import { FavoritesPage, MealPlannerPage } from './pages/OtherPages'
+import { IconChefHat } from './components/icons/FoodIcons'
 import './styles/global.css'
 
 const PAGE_TITLES = {
@@ -39,11 +40,11 @@ function AppShell() {
   // Real-time notification handler
   const handleNotification = useCallback((notif) => {
     if (notif.type === 'like') {
-      toastLike(`❤️ ${notif.fromName} liked your post!`)
+      toastLike(`${notif.fromName} liked your post!`)
     } else if (notif.type === 'follow') {
-      toastFollow(`👤 ${notif.fromName} started following you!`)
+      toastFollow(`${notif.fromName} started following you!`)
     } else if (notif.type === 'comment') {
-      toastSuccess(`💬 ${notif.fromName} commented on your post!`)
+      toastSuccess(`${notif.fromName} commented on your post!`)
     }
   }, [toastLike, toastFollow, toastSuccess])
 
@@ -52,7 +53,7 @@ function AppShell() {
   if (loading) {
     return (
       <div className="loading-page">
-        <div style={{ fontSize:'3.5rem', marginBottom:8 }}>🍳</div>
+        <IconChefHat size={56} strokeWidth={1.2} style={{ color:'var(--brand)', marginBottom:8 }}/>
         <span className="spinner spinner-lg"/>
         <p className="text-muted text-sm" style={{ marginTop:12 }}>Loading CookingINA…</p>
       </div>

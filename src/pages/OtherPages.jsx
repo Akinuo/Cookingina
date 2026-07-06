@@ -6,6 +6,7 @@ import RecipeCard from '../components/recipe/RecipeCard'
 import RecipeDetail from '../components/recipe/RecipeDetail'
 import ToastContainer from '../components/ui/ToastContainer'
 import { useToast } from '../hooks/useToast'
+import { IconHeartEmpty, IconCalendarPlan, IconShoppingCart, IconWarningTriangle, IconLightbulb } from '../components/icons/FoodIcons'
 
 /* ─── Favorites Page ─────────────────────────────────────────── */
 export function FavoritesPage({ onNavigate }) {
@@ -17,7 +18,7 @@ export function FavoritesPage({ onNavigate }) {
   return (
     <div>
       <div className="flex items-center gap-3 mb-6">
-        <div style={{ width:48,height:48,borderRadius:'var(--radius-sm)',background:'linear-gradient(135deg,#E85555,#C43030)',display:'flex',alignItems:'center',justifyContent:'center' }}>
+        <div style={{ width:48,height:48,borderRadius:'var(--r-md)',background:'linear-gradient(135deg,#E85555,#C43030)',display:'flex',alignItems:'center',justifyContent:'center' }}>
           <Heart size={24} color="white" />
         </div>
         <div>
@@ -28,7 +29,7 @@ export function FavoritesPage({ onNavigate }) {
 
       {savedRecipes.length === 0 ? (
         <div className="empty-state">
-          <span className="empty-state-icon">❤️</span>
+          <IconHeartEmpty size={40} strokeWidth={1.3} className="empty-state-icon-svg" style={{ color:'#C43030' }}/>
           <h3>No favorites yet</h3>
           <p>Browse Discover and tap the bookmark icon to save recipes here.</p>
           <button className="btn btn-primary mt-3" onClick={() => onNavigate?.('home')}><Sparkles size={15}/> Browse Recipes</button>
@@ -75,7 +76,7 @@ export function MealPlannerPage() {
 
       {/* Header */}
       <div className="flex items-center gap-3 mb-5">
-        <div style={{ width:48,height:48,borderRadius:'var(--radius-sm)',background:'linear-gradient(135deg,#2D6A6A,#1A4A4A)',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0 }}>
+        <div style={{ width:48,height:48,borderRadius:'var(--r-md)',background:'linear-gradient(135deg,#2D6A6A,#1A4A4A)',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0 }}>
           <ShoppingCart size={24} color="white" />
         </div>
         <div>
@@ -109,9 +110,13 @@ export function MealPlannerPage() {
           </div>
 
           {/* Budget summary */}
-          <div style={{ background:'var(--clay-pale)', borderRadius:'var(--radius-sm)', padding:'10px 14px', fontSize:'clamp(0.78rem,2vw,0.875rem)', lineHeight:1.5 }}>
-            📊 Budget per person per day: <strong style={{ color:'var(--clay)' }}>₱{perPersonPerDay}</strong>
-            {perPersonPerDay < 50 && <span style={{ color:'var(--danger)',marginLeft:8,fontSize:'0.75rem' }}>⚠️ Very tight — consider increasing budget</span>}
+          <div style={{ background:'var(--brand-pale)', borderRadius:'var(--r-sm)', padding:'10px 14px', fontSize:'clamp(0.78rem,2vw,0.875rem)', lineHeight:1.5, display:'flex', alignItems:'center', gap:6, flexWrap:'wrap' }}>
+            <span>Budget per person per day: <strong style={{ color:'var(--brand)' }}>₱{perPersonPerDay}</strong></span>
+            {perPersonPerDay < 50 && (
+              <span style={{ color:'var(--red)', fontSize:'0.75rem', display:'inline-flex', alignItems:'center', gap:4 }}>
+                <IconWarningTriangle size={12}/> Very tight — consider increasing budget
+              </span>
+            )}
           </div>
 
           <button className="btn btn-primary btn-full" onClick={generate} disabled={loading}
@@ -124,7 +129,7 @@ export function MealPlannerPage() {
 
       {/* Error */}
       {err && (
-        <div style={{ display:'flex',gap:10,padding:'14px 18px',background:'#fff5f5',border:'1px solid #fc8181',color:'#c53030',borderRadius:'var(--radius-sm)',fontSize:'0.875rem',marginBottom:16 }}>
+        <div style={{ display:'flex',gap:10,padding:'14px 18px',background:'rgba(192,57,43,0.06)',border:'1px solid rgba(192,57,43,0.25)',color:'var(--red)',borderRadius:'var(--r-sm)',fontSize:'0.875rem',marginBottom:16 }}>
           <AlertCircle size={16} style={{ flexShrink:0,marginTop:1 }}/>
           <div><strong>Error:</strong> {err}</div>
         </div>
@@ -149,7 +154,7 @@ export function MealPlannerPage() {
               Your {days}-Day Meal Plan
             </div>
             <div style={{ display:'flex',gap:10,alignItems:'center',flexWrap:'wrap' }}>
-              <span className="tag tag-clay" style={{ fontSize:'clamp(0.72rem,1.8vw,0.82rem)' }}>
+              <span className="tag tag-brand" style={{ fontSize:'clamp(0.72rem,1.8vw,0.82rem)' }}>
                 Est. Total: ₱{plan.total_cost_php}
               </span>
               <button className="btn btn-secondary btn-sm" onClick={() => setPlan(null)}>
@@ -163,8 +168,8 @@ export function MealPlannerPage() {
             {plan.meals?.map(day => (
               <div key={day.day} className="card card-elevated" style={{ overflow:'hidden' }}>
                 {/* Day header */}
-                <div style={{ padding:'10px clamp(12px,3vw,18px)', background:'linear-gradient(90deg,var(--clay-pale),transparent)', borderBottom:'1px solid var(--border)' }}>
-                  <span style={{ fontFamily:'var(--font-display)',fontWeight:700,color:'var(--clay)',fontSize:'clamp(0.95rem,2vw,1.1rem)' }}>
+                <div style={{ padding:'10px clamp(12px,3vw,18px)', background:'linear-gradient(90deg,var(--brand-pale),transparent)', borderBottom:'1px solid var(--border)' }}>
+                  <span style={{ fontFamily:'var(--font-serif)',fontWeight:700,color:'var(--brand)',fontSize:'clamp(0.95rem,2vw,1.1rem)' }}>
                     Day {day.day}
                   </span>
                 </div>
@@ -172,15 +177,15 @@ export function MealPlannerPage() {
                 {/* Meal columns — flex wraps on narrow screens */}
                 <div style={{ padding:'clamp(10px,2.5vw,16px)', display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(min(140px,100%),1fr))', gap:'clamp(8px,2vw,12px)' }}>
                   {['breakfast','lunch','dinner'].map(meal => day[meal] && (
-                    <div key={meal} style={{ background:'var(--parch)',borderRadius:'var(--radius-sm)',padding:'clamp(10px,2vw,14px)',minWidth:0 }}>
-                      <div style={{ fontSize:'clamp(0.6rem,1.4vw,0.68rem)',textTransform:'uppercase',letterSpacing:'0.07em',color:'var(--muted)',fontWeight:700,marginBottom:5 }}>
+                    <div key={meal} style={{ background:'var(--surface-2)',borderRadius:'var(--r-sm)',padding:'clamp(10px,2vw,14px)',minWidth:0 }}>
+                      <div style={{ fontSize:'clamp(0.6rem,1.4vw,0.68rem)',textTransform:'uppercase',letterSpacing:'0.07em',color:'var(--ink-3)',fontWeight:700,marginBottom:5 }}>
                         {meal}
                       </div>
                       <div style={{ fontWeight:600,fontSize:'clamp(0.8rem,2vw,0.9rem)',lineHeight:1.35,wordBreak:'break-word',marginBottom:5 }}>
                         {day[meal].name}
                       </div>
                       {day[meal].cost_php != null && (
-                        <div style={{ color:'var(--clay)',fontWeight:700,fontSize:'clamp(0.78rem,1.8vw,0.875rem)' }}>
+                        <div style={{ color:'var(--brand)',fontWeight:700,fontSize:'clamp(0.78rem,1.8vw,0.875rem)' }}>
                           ₱{day[meal].cost_php}
                         </div>
                       )}
@@ -196,7 +201,7 @@ export function MealPlannerPage() {
             <div className="card card-elevated mt-4">
               <div className="card-body">
                 <div className="section-title mb-4" style={{ fontSize:'clamp(0.95rem,2vw,1.1rem)',display:'flex',alignItems:'center',gap:8 }}>
-                  🛒 Shopping List
+                  <IconShoppingCart size={18} strokeWidth={1.6} style={{ color:'var(--brand)' }}/> Shopping List
                 </div>
                 <div style={{ display:'flex',flexDirection:'column',gap:8 }}>
                   {plan.shopping_list.map((item, i) => (
@@ -205,8 +210,8 @@ export function MealPlannerPage() {
                       alignItems:'center',
                       justifyContent:'space-between',
                       padding:'clamp(8px,2vw,12px) clamp(10px,2.5vw,16px)',
-                      background:'var(--parch)',
-                      borderRadius:'var(--radius-sm)',
+                      background:'var(--surface-2)',
+                      borderRadius:'var(--r-sm)',
                       gap:12,
                       minWidth:0,
                     }}>
@@ -221,7 +226,7 @@ export function MealPlannerPage() {
                         )}
                       </div>
                       {item.cost_php != null && (
-                        <span style={{ color:'var(--clay)',fontWeight:700,fontSize:'clamp(0.8rem,2vw,0.875rem)',flexShrink:0,whiteSpace:'nowrap' }}>
+                        <span style={{ color:'var(--brand)',fontWeight:700,fontSize:'clamp(0.8rem,2vw,0.875rem)',flexShrink:0,whiteSpace:'nowrap' }}>
                           ₱{item.cost_php}
                         </span>
                       )}
@@ -230,9 +235,9 @@ export function MealPlannerPage() {
                 </div>
 
                 {/* Total row */}
-                <div style={{ marginTop:12,padding:'10px clamp(10px,2.5vw,16px)',background:'var(--clay-pale)',borderRadius:'var(--radius-sm)',display:'flex',justifyContent:'space-between',alignItems:'center' }}>
+                <div style={{ marginTop:12,padding:'10px clamp(10px,2.5vw,16px)',background:'var(--brand-pale)',borderRadius:'var(--r-sm)',display:'flex',justifyContent:'space-between',alignItems:'center' }}>
                   <span style={{ fontWeight:700,fontSize:'0.875rem' }}>Estimated Total</span>
-                  <span style={{ fontWeight:700,color:'var(--clay)',fontSize:'1rem' }}>₱{plan.total_cost_php}</span>
+                  <span style={{ fontWeight:700,color:'var(--brand)',fontSize:'1rem' }}>₱{plan.total_cost_php}</span>
                 </div>
               </div>
             </div>
@@ -240,13 +245,15 @@ export function MealPlannerPage() {
 
           {/* Tips */}
           {plan.tips?.length > 0 && (
-            <div className="card card-elevated mt-4" style={{ background:'var(--clay-pale)',border:'1px solid rgba(196,98,45,0.15)' }}>
+            <div className="card card-elevated mt-4" style={{ background:'var(--brand-pale)',border:'1px solid rgba(196,98,45,0.15)' }}>
               <div className="card-body">
-                <div className="section-title mb-3" style={{ fontSize:'0.95rem' }}>💡 Budget Tips</div>
+                <div className="section-title mb-3" style={{ fontSize:'0.95rem', display:'flex', alignItems:'center', gap:6 }}>
+                  <IconLightbulb size={16} strokeWidth={1.6} style={{ color:'var(--brand)' }}/> Budget Tips
+                </div>
                 <div style={{ display:'flex',flexDirection:'column',gap:6 }}>
                   {plan.tips.map((tip, i) => (
                     <div key={i} style={{ display:'flex',gap:8,fontSize:'clamp(0.8rem,2vw,0.875rem)',lineHeight:1.6 }}>
-                      <span style={{ color:'var(--clay)',flexShrink:0 }}>•</span>
+                      <span style={{ color:'var(--brand)',flexShrink:0 }}>•</span>
                       <span>{tip}</span>
                     </div>
                   ))}
@@ -265,7 +272,7 @@ export function MealPlannerPage() {
       {/* Empty state */}
       {!plan && !loading && !err && (
         <div className="empty-state">
-          <span className="empty-state-icon">📅</span>
+          <IconCalendarPlan size={40} strokeWidth={1.3} className="empty-state-icon-svg" style={{ color:'#2D6A6A' }}/>
           <h3>Plan your Filipino meals</h3>
           <p>Set your budget, number of days, and family size. The AI will create a complete Filipino meal plan with a shopping list and ₱ cost breakdown.</p>
         </div>

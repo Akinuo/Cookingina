@@ -6,6 +6,10 @@ import { uploadRecipeImage } from '../services/cloudinary'
 import { useAuth } from '../hooks/useAuth'
 import { useToast } from '../hooks/useToast'
 import ToastContainer from '../components/ui/ToastContainer'
+import {
+  IconDessert, IconSoup, IconNoodles, IconRice, IconSeafood, IconBreakfast,
+  IconSnack, IconMainDish, IconMeat, IconVegetables, IconAllDishes,
+} from '../components/icons/FoodIcons'
 
 async function getRecipeFromName_(name) {
   const { askCookingAssistant } = await import('../services/ai')
@@ -16,7 +20,7 @@ const CAT_LIST  = ['Filipino Classic','Soup','Noodles','Rice','Pork','Beef','Chi
 const DIFF_LIST = ['Easy','Medium','Hard']
 const EMPTY     = { title:'', description:'', category:'Filipino Classic', difficulty:'Easy', prep_time:'', cook_time:'', servings:'', ingredients:'', steps:'', notes:'', total_cost_php:'', image:'' }
 
-const CAT_EMOJI = { Dessert:'🍮', Soup:'🍲', Noodles:'🍜', Rice:'🍚', Seafood:'🐟', Breakfast:'🍳', Snack:'🥟', 'Filipino Classic':'🍖', Pork:'🥩', Beef:'🥩', Chicken:'🍗', Vegetable:'🥦', Other:'🍽️' }
+const CAT_ICON = { Dessert:IconDessert, Soup:IconSoup, Noodles:IconNoodles, Rice:IconRice, Seafood:IconSeafood, Breakfast:IconBreakfast, Snack:IconSnack, 'Filipino Classic':IconMainDish, Pork:IconMeat, Beef:IconMeat, Chicken:IconMainDish, Vegetable:IconVegetables, Other:IconAllDishes }
 
 export default function CookbookPage() {
   const { user }              = useAuth()
@@ -38,8 +42,6 @@ export default function CookbookPage() {
   const [imgPct, setImgPct]       = useState(0)
   const imgRef = useRef(null)
 
-  useEffect(() => { if (user) load() }, [user])
-
   const load = async () => {
     setLoading(true)
     try {
@@ -49,6 +51,8 @@ export default function CookbookPage() {
     } catch { toastErr('Failed to load cookbook.') }
     finally   { setLoading(false) }
   }
+
+  useEffect(() => { if (user) load() }, [user])
 
   const setF = (k, v) => setForm(f => ({ ...f, [k]: v }))
 
@@ -147,7 +151,7 @@ export default function CookbookPage() {
       {/* ── Empty ── */}
       {!loading && recipes.length===0 && (
         <div className="empty-state">
-          <span className="empty-state-icon">📖</span>
+          <BookOpen size={40} strokeWidth={1.3} className="empty-state-icon-svg"/>
           <h3>Your cookbook is empty</h3>
           <p>Add your favorite Filipino recipes. Use <strong>AI Fill</strong> to auto-generate details from just a dish name!</p>
           <button className="btn btn-primary mt-3" onClick={openNew}><Plus size={15}/> Add First Recipe</button>
@@ -166,13 +170,13 @@ export default function CookbookPage() {
                       onError={e => { e.target.style.display='none'; e.target.nextSibling.style.display='flex' }}/>
                   : null}
                 <div className="cookbook-card-emoji" style={{ display: r.image?'none':'flex' }}>
-                  {CAT_EMOJI[r.category]||'🍳'}
+                  {(() => { const Icon = CAT_ICON[r.category] || IconAllDishes; return <Icon size={34} strokeWidth={1.3}/> })()}
                 </div>
                 {/* Actions overlay */}
                 <div className="cookbook-card-actions">
                   <button className="icon-btn" onClick={() => setView(r)} title="View"><Eye size={13}/></button>
                   <button className="icon-btn" onClick={() => openEdit(r)} title="Edit"><Edit3 size={13}/></button>
-                  <button className="icon-btn" onClick={() => setDelId(r.id)} title="Delete" style={{ color:'var(--danger)' }}><Trash2 size={13}/></button>
+                  <button className="icon-btn" onClick={() => setDelId(r.id)} title="Delete" style={{ color:'var(--red)' }}><Trash2 size={13}/></button>
                 </div>
               </div>
               {/* Card body */}
@@ -228,7 +232,7 @@ export default function CookbookPage() {
                 </div>
               ) : (
                 <button className="new-post-img-upload-btn" onClick={() => imgRef.current?.click()}>
-                  <ImagePlus size={18} style={{ color:'var(--clay)' }}/>
+                  <ImagePlus size={18} style={{ color:'var(--brand)' }}/>
                   <span>Upload food photo</span>
                   <span className="new-post-img-hint">JPG, PNG, WEBP · max 10MB</span>
                 </button>
@@ -321,7 +325,7 @@ export default function CookbookPage() {
             )}
             <div className="modal-header" style={{ paddingTop: view.image?16:28 }}>
               <div>
-                <h2 style={{ fontFamily:'var(--font-display)', fontSize:'clamp(1.2rem,3vw,1.6rem)', fontWeight:700 }}>{view.title}</h2>
+                <h2 style={{ fontFamily:'var(--font-serif)', fontSize:'clamp(1.2rem,3vw,1.6rem)', fontWeight:700 }}>{view.title}</h2>
                 {view.description && <p className="text-sm text-muted mt-2">{view.description}</p>}
               </div>
               <button className="modal-close" onClick={() => setView(null)}><X size={16}/></button>
@@ -330,21 +334,21 @@ export default function CookbookPage() {
               <div className="flex flex-wrap gap-2 mb-4">
                 {view.cook_time && <span className="tag"><Clock size={11}/> {view.cook_time}m</span>}
                 {view.servings  && <span className="tag"><Users size={11}/> {view.servings}</span>}
-                {view.total_cost_php && <span className="tag tag-clay">₱{view.total_cost_php}</span>}
+                {view.total_cost_php && <span className="tag tag-brand">₱{view.total_cost_php}</span>}
                 <span className={`tag ${view.difficulty==='Easy'?'diff-easy':view.difficulty==='Hard'?'diff-hard':'diff-medium'}`}>{view.difficulty}</span>
                 <span className="tag">{view.category}</span>
               </div>
               {view.ingredients && <>
-                <h3 style={{ fontFamily:'var(--font-display)', fontSize:'1rem', marginBottom:8 }}>Ingredients</h3>
-                <div style={{ background:'var(--parch)', borderRadius:'var(--radius-sm)', padding:'12px 16px', marginBottom:16, fontSize:'0.875rem', whiteSpace:'pre-wrap', lineHeight:1.8 }}>{view.ingredients}</div>
+                <h3 style={{ fontFamily:'var(--font-serif)', fontSize:'1rem', marginBottom:8 }}>Ingredients</h3>
+                <div style={{ background:'var(--surface-2)', borderRadius:'var(--r-sm)', padding:'12px 16px', marginBottom:16, fontSize:'0.875rem', whiteSpace:'pre-wrap', lineHeight:1.8 }}>{view.ingredients}</div>
               </>}
               {view.steps && <>
-                <h3 style={{ fontFamily:'var(--font-display)', fontSize:'1rem', marginBottom:8 }}>Steps</h3>
-                <div style={{ background:'var(--parch)', borderRadius:'var(--radius-sm)', padding:'12px 16px', marginBottom:16, fontSize:'0.875rem', whiteSpace:'pre-wrap', lineHeight:1.8 }}>{view.steps}</div>
+                <h3 style={{ fontFamily:'var(--font-serif)', fontSize:'1rem', marginBottom:8 }}>Steps</h3>
+                <div style={{ background:'var(--surface-2)', borderRadius:'var(--r-sm)', padding:'12px 16px', marginBottom:16, fontSize:'0.875rem', whiteSpace:'pre-wrap', lineHeight:1.8 }}>{view.steps}</div>
               </>}
               {view.notes && <>
-                <h3 style={{ fontFamily:'var(--font-display)', fontSize:'1rem', marginBottom:8 }}>Notes</h3>
-                <div style={{ background:'var(--clay-pale)', borderRadius:'var(--radius-sm)', padding:'12px 16px', fontSize:'0.875rem', lineHeight:1.7 }}>{view.notes}</div>
+                <h3 style={{ fontFamily:'var(--font-serif)', fontSize:'1rem', marginBottom:8 }}>Notes</h3>
+                <div style={{ background:'var(--brand-pale)', borderRadius:'var(--r-sm)', padding:'12px 16px', fontSize:'0.875rem', lineHeight:1.7 }}>{view.notes}</div>
               </>}
               <div style={{ display:'flex', gap:10, marginTop:20 }}>
                 <button className="btn btn-primary" onClick={() => { setView(null); openEdit(view) }}><Edit3 size={14}/> Edit</button>
@@ -359,8 +363,8 @@ export default function CookbookPage() {
       {delId && (
         <div className="modal-overlay">
           <div className="modal modal-sm" style={{ textAlign:'center' }}>
-            <div style={{ fontSize:'2.5rem', marginBottom:12 }}>🗑️</div>
-            <h3 style={{ fontFamily:'var(--font-display)', marginBottom:8 }}>Delete this recipe?</h3>
+            <div className="delete-confirm-icon"><Trash2 size={26} strokeWidth={1.6}/></div>
+            <h3 style={{ fontFamily:'var(--font-serif)', marginBottom:8 }}>Delete this recipe?</h3>
             <p className="text-sm text-muted mb-5">This action cannot be undone.</p>
             <div style={{ display:'flex', gap:10 }}>
               <button className="btn btn-danger" style={{ flex:1 }} onClick={() => del(delId)}>Yes, Delete</button>
