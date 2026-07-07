@@ -48,5 +48,32 @@ service cloud.firestore {
       allow create: if request.auth != null;
       allow update: if request.auth != null && request.auth.uid == uid;
     }
+
+    // Recipe rating aggregates — public read (shown on recipe cards to
+    // everyone), writes restricted to just the avg/count fields with
+    // sane bounds so a client can't inject arbitrary data.
+    match /recipeStats/{recipeId} {
+      allow read: if true;
+      allow create: if request.auth != null &&
+        request.resource.data.keys().hasOnly(['avg','count']) &&
+        request.resource.data.avg is number &&
+        request.resource.data.avg >= 1 && request.resource.data.avg <= 5 &&
+        request.resource.data.count is int && request.resource.data.count >= 1;
+      allow update: if request.auth != null &&
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['avg','count']) &&
+        request.resource.data.avg is number &&
+        request.resource.data.avg >= 1 && request.resource.data.avg <= 5 &&
+        request.resource.data.count is int && request.resource.data.count >= 1;
+    }
+
+    // Individual ratings — a user can only create/update/delete their own
+    // rating entry for a given recipe (one entry per user per recipe).
+    match /recipeRatings/{recipeId}/entries/{uid} {
+      allow read: if request.auth != null;
+      allow create, update: if request.auth != null && request.auth.uid == uid &&
+        request.resource.data.stars is int &&
+        request.resource.data.stars >= 1 && request.resource.data.stars <= 5;
+      allow delete: if request.auth != null && request.auth.uid == uid;
+    }
   }
 }

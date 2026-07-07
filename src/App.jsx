@@ -102,6 +102,7 @@ function AppShell() {
           onMenuOpen={() => setSidebarOpen(true)}
           title={PAGE_TITLES[page] || 'CookingINA'}
           onProfile={() => navigate('profile')}
+          onNavigate={navigate}
           page={page}
         />
         <div className="page-content">

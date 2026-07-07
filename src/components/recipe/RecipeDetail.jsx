@@ -1,5 +1,8 @@
-import { useState } from 'react'
-import { X, Clock, Users, Heart, BookmarkPlus, Globe, ChefHat, UtensilsCrossed } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { X, Clock, Heart, BookmarkPlus, Globe, UtensilsCrossed, Star } from 'lucide-react'
+import { useAuth } from '../../hooks/useAuth'
+import { getRecipeStats, getUserRating, submitRating } from '../../services/ratings'
+import RatingInput from './RatingInput'
 
 function YoutubeIcon({ size=16 }) {
   return (
@@ -13,9 +16,40 @@ const TABS_LOCAL  = ['ingredients','steps','nutrition','tips']
 const TABS_MEALDB = ['ingredients','steps','tips']
 
 export default function RecipeDetail({ recipe, onClose, onLike, onSave, liked, saved }) {
+  const { user } = useAuth()
   const isMealDB = recipe?.source==='mealdb'
   const tabs     = isMealDB ? TABS_MEALDB : TABS_LOCAL
   const [activeTab, setActiveTab] = useState('ingredients')
+  const [ratingStats, setRatingStats] = useState(null)
+  const [myRating, setMyRating]       = useState(0)
+  const [ratingBusy, setRatingBusy]   = useState(false)
+
+  useEffect(() => {
+    if (!recipe?.id) return
+    let cancelled = false
+    getRecipeStats(recipe.id).then(s => { if (!cancelled) setRatingStats(s) }).catch(() => {})
+    getUserRating(recipe.id, user?.uid).then(r => { if (!cancelled) setMyRating(r?.stars || 0) }).catch(() => {})
+    return () => { cancelled = true }
+  }, [recipe?.id, user?.uid])
+
+  const handleRate = async (stars) => {
+    if (!user?.uid || !recipe?.id || ratingBusy) return
+    setRatingBusy(true)
+    const prevStats = ratingStats
+    const prevMine  = myRating
+    setMyRating(stars) // optimistic
+    try {
+      await submitRating(recipe.id, user.uid, stars)
+      const fresh = await getRecipeStats(recipe.id)
+      setRatingStats(fresh)
+    } catch {
+      setMyRating(prevMine)
+      setRatingStats(prevStats)
+    } finally {
+      setRatingBusy(false)
+    }
+  }
+
   if (!recipe) return null
 
   const totalTime = (recipe.prep_time||0) + (recipe.cook_time||0)
@@ -55,6 +89,27 @@ export default function RecipeDetail({ recipe, onClose, onLike, onSave, liked, s
             ))}
           </div>
           {recipe.description && <p className="text-sm" style={{ color:'var(--ink-3)', lineHeight:1.65, marginTop:8, marginBottom:0 }}>{recipe.description}</p>}
+
+          {/* Ratings */}
+          <div className="detail-ratings-row">
+            <div className="detail-ratings-agg">
+              {ratingStats?.count ? (
+                <>
+                  <Star size={15} fill="#D97706" stroke="#D97706"/>
+                  <span className="detail-ratings-avg">{ratingStats.avg.toFixed(1)}</span>
+                  <span className="text-xs text-muted">({ratingStats.count} rating{ratingStats.count===1?'':'s'})</span>
+                </>
+              ) : (
+                <span className="text-xs text-muted">No ratings yet — be the first to rate this recipe!</span>
+              )}
+            </div>
+            {user ? (
+              <div className="detail-ratings-input">
+                <span className="text-xxs text-muted" style={{ marginRight:2 }}>{myRating ? 'Your rating:' : 'Rate this:'}</span>
+                <RatingInput value={myRating} onRate={handleRate} disabled={ratingBusy}/>
+              </div>
+            ) : null}
+          </div>
 
           {/* Stats */}
           <div className="detail-stats-grid">

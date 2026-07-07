@@ -3,6 +3,7 @@ import {
   Users, Heart, ShoppingBasket, Menu, X, UserCircle, UtensilsCrossed
 } from 'lucide-react'
 import { useAuth } from '../../hooks/useAuth'
+import NotificationBell from '../ui/NotificationBell'
 
 const NAV = [
   { id:'home',       label:'Discover',           icon:LayoutGrid },
@@ -38,10 +39,15 @@ export function Sidebar({ page, onNavigate, open, onClose }) {
               <UtensilsCrossed size={18} strokeWidth={1.75}/>
               CookingINA
             </div>
-            <button onClick={onClose} className="sb-close-btn"
-              style={{ color:'var(--ink-3)', padding:4, display:'none', alignItems:'center', justifyContent:'center', borderRadius:'var(--r-sm)', background:'none', border:'none', cursor:'pointer' }}>
-              <X size={17}/>
-            </button>
+            <div style={{ display:'flex', alignItems:'center', gap:2 }}>
+              <div className="sb-bell-only-desktop">
+                <NotificationBell onNavigate={onNavigate} align="left"/>
+              </div>
+              <button onClick={onClose} className="sb-close-btn"
+                style={{ color:'var(--ink-3)', padding:4, display:'none', alignItems:'center', justifyContent:'center', borderRadius:'var(--r-sm)', background:'none', border:'none', cursor:'pointer' }}>
+                <X size={17}/>
+              </button>
+            </div>
           </div>
           <div className="sb-tagline">Filipino Recipe Platform</div>
         </div>
@@ -97,7 +103,7 @@ export function MobileNav({ page, onNavigate }) {
   )
 }
 
-export function Topbar({ onMenuOpen, title, onProfile, page }) {
+export function Topbar({ onMenuOpen, title, onProfile, onNavigate, page }) {
   const { profile } = useAuth()
   const initials = (profile?.displayName || 'U').split(' ').map(n => n[0]).join('').slice(0,2).toUpperCase()
   return (
@@ -111,6 +117,7 @@ export function Topbar({ onMenuOpen, title, onProfile, page }) {
         <span className="topbar-sep">·</span>
         <span className="topbar-page-title">{title}</span>
       </div>
+      <NotificationBell onNavigate={onNavigate} align="right"/>
       <button onClick={onProfile} aria-label="Profile" className="topbar-avatar-btn">
         <div className="topbar-avatar" style={{ background: page==='profile'?'var(--brand)':'var(--brand-lt)' }}>
           {profile?.photoURL

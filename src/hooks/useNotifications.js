@@ -1,5 +1,5 @@
-import { useEffect, useRef } from 'react'
-import { collection, query, where, onSnapshot, orderBy, limit } from 'firebase/firestore'
+import { useEffect, useRef, useState, useCallback } from 'react'
+import { collection, query, where, onSnapshot, orderBy, limit, doc, updateDoc, writeBatch } from 'firebase/firestore'
 import { db } from '../services/firebase'
 
 /**
@@ -49,4 +49,58 @@ export function useNotifications(uid, onNew) {
 
     return unsub
   }, [uid, onNew])
+}
+
+/**
+ * Persistent notification inbox — the full read + unread history, for a
+ * bell-icon dropdown/page. Separate listener from useNotifications() above
+ * (which only ever surfaces brand-new unread items for toasts) so marking
+ * things read here doesn't interfere with the toast stream.
+ */
+export function useNotificationsList(uid, pageSize = 30) {
+  const [items, setItems] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    if (!uid) {
+      // Defer — calling setState synchronously in an effect body can
+      // trigger cascading renders; a microtask still resolves before paint.
+      queueMicrotask(() => { setItems([]); setLoading(false) })
+      return
+    }
+
+    const q = query(
+      collection(db, 'notifications', uid, 'items'),
+      orderBy('createdAt', 'desc'),
+      limit(pageSize)
+    )
+
+    const unsub = onSnapshot(q, (snap) => {
+      setItems(snap.docs.map(d => ({ id: d.id, ...d.data() })))
+      setLoading(false)
+    }, () => setLoading(false))
+
+    return unsub
+  }, [uid, pageSize])
+
+  const unreadCount = items.reduce((n, item) => n + (item.read ? 0 : 1), 0)
+
+  const markAsRead = useCallback(async (notifId) => {
+    if (!uid) return
+    try { await updateDoc(doc(db, 'notifications', uid, 'items', notifId), { read: true }) }
+    catch { /* non-critical — will retry next time the item is opened */ }
+  }, [uid])
+
+  const markAllAsRead = useCallback(async () => {
+    if (!uid) return
+    const unread = items.filter(n => !n.read)
+    if (!unread.length) return
+    try {
+      const batch = writeBatch(db)
+      unread.forEach(n => batch.update(doc(db, 'notifications', uid, 'items', n.id), { read: true }))
+      await batch.commit()
+    } catch { /* non-critical */ }
+  }, [uid, items])
+
+  return { items, unreadCount, loading, markAsRead, markAllAsRead }
 }

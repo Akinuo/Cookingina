@@ -1,5 +1,6 @@
-import { useId } from 'react'
+import { useId, useState, useEffect } from 'react'
 import { Clock, Users, Heart, BookmarkPlus, UtensilsCrossed } from 'lucide-react'
+import { getRecipeStats } from '../../services/ratings'
 
 function StarIcon({ fill = 0 }) {
   // fill: 0–1, how much of the star is filled (supports half-stars)
@@ -26,6 +27,28 @@ function Stars({ rating }) {
         return <StarIcon key={i} fill={fill}/>
       })}
       <span className="rating-label">{rating?.toFixed(1)}</span>
+    </div>
+  )
+}
+
+// Fetches and displays a recipe's real, live community rating. Renders
+// nothing if nobody has rated it yet — better than showing a fabricated
+// number, which is what this used to do.
+function LiveRating({ recipeId }) {
+  const [stats, setStats] = useState(null)
+
+  useEffect(() => {
+    let cancelled = false
+    if (!recipeId) return
+    getRecipeStats(recipeId).then(s => { if (!cancelled) setStats(s) }).catch(() => {})
+    return () => { cancelled = true }
+  }, [recipeId])
+
+  if (!stats || !stats.count) return null
+  return (
+    <div className="stars-with-count">
+      <Stars rating={stats.avg}/>
+      <span className="rating-count">({stats.count})</span>
     </div>
   )
 }
@@ -78,7 +101,7 @@ export default function RecipeCard({ recipe, onClick, onLike, onSave, liked, sav
 
         <div className="recipe-card-footer">
           <DiffTag difficulty={recipe.difficulty||'Medium'}/>
-          {recipe.rating && <Stars rating={recipe.rating}/>}
+          <LiveRating recipeId={recipe.id}/>
         </div>
       </div>
     </div>

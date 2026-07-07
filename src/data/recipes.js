@@ -1,6 +1,5 @@
 // ─── CookingINA Complete Filipino Recipe Database ─────────────
 export const FILIPINO_RECIPES = [
-
   // ─── MAIN DISHES ──────────────────────────────────────────────
   {
     id:'adobo-001',
@@ -26,7 +25,6 @@ export const FILIPINO_RECIPES = [
     nutrition:{calories:385,protein_g:32,carbs_g:4,fat_g:26,fiber_g:0},
     total_cost_php:246,tags:['adobo','classic','savory','easy'],
     tips:'Use coconut milk for a creamier Adobo sa Gata version. Leftover adobo tastes even better the next day!',
-    rating:4.9,reviews:2847
   },
   {
     id:'sinigang-001',
@@ -55,7 +53,6 @@ export const FILIPINO_RECIPES = [
     nutrition:{calories:320,protein_g:28,carbs_g:18,fat_g:15,fiber_g:5},
     total_cost_php:418,tags:['sinigang','sour soup','comfort food'],
     tips:'Use sinigang mix as a shortcut. For a more sour broth add calamansi.',
-    rating:4.8,reviews:3120
   },
   {
     id:'kare-001',
@@ -84,7 +81,6 @@ export const FILIPINO_RECIPES = [
     nutrition:{calories:580,protein_g:42,carbs_g:28,fat_g:35,fiber_g:7},
     total_cost_php:643,tags:['kare-kare','peanut','special occasion','Pampanga'],
     tips:'Saute bagoong with garlic and a little sugar for the best accompaniment.',
-    rating:4.8,reviews:2341
   },
   {
     id:'lechon-001',
@@ -109,7 +105,6 @@ export const FILIPINO_RECIPES = [
     nutrition:{calories:620,protein_g:35,carbs_g:1,fat_g:52,fiber_g:0},
     total_cost_php:453,tags:['lechon','crispy','pork','party food'],
     tips:'The secret to extra-crispy skin: dry the pork completely and fry twice!',
-    rating:4.9,reviews:3456
   },
   {
     id:'bistek-001',
@@ -135,7 +130,6 @@ export const FILIPINO_RECIPES = [
     nutrition:{calories:310,protein_g:28,carbs_g:8,fat_g:18,fiber_g:1},
     total_cost_php:341,tags:['bistek','beef','citrus','easy weeknight'],
     tips:'Pound beef thin for the most tender results. Calamansi is key — lemon can substitute.',
-    rating:4.7,reviews:1654
   },
   {
     id:'kaldereta-001',
@@ -164,7 +158,6 @@ export const FILIPINO_RECIPES = [
     nutrition:{calories:520,protein_g:38,carbs_g:22,fat_g:32,fiber_g:4},
     total_cost_php:703,tags:['kaldereta','beef','fiesta','rich'],
     tips:'The longer you cook, the more tender the beef. Can also use goat meat.',
-    rating:4.7,reviews:1876
   },
   {
     id:'nilaga-001',
@@ -191,7 +184,6 @@ export const FILIPINO_RECIPES = [
     nutrition:{calories:285,protein_g:30,carbs_g:24,fat_g:8,fiber_g:4},
     total_cost_php:448,tags:['nilaga','soup','comfort food','healthy'],
     tips:'Skim the scum regularly for a clear, clean broth.',
-    rating:4.6,reviews:1234
   },
   {
     id:'pinakbet-001',
@@ -219,7 +211,6 @@ export const FILIPINO_RECIPES = [
     nutrition:{calories:220,protein_g:14,carbs_g:20,fat_g:10,fiber_g:7},
     total_cost_php:216,tags:['pinakbet','vegetables','Ilocos','bagoong'],
     tips:'Do not stir too much — pakbet is traditionally cooked with minimal stirring.',
-    rating:4.5,reviews:987
   },
   {
     id:'ginataang-001',
@@ -247,9 +238,7 @@ export const FILIPINO_RECIPES = [
     nutrition:{calories:420,protein_g:30,carbs_g:8,fat_g:30,fiber_g:2},
     total_cost_php:357,tags:['ginataan','coconut','Bicol','creamy'],
     tips:"Add bird's eye chili (siling labuyo) for the real Bicolano heat!",
-    rating:4.7,reviews:1432
   },
-
   // ─── NOODLES ──────────────────────────────────────────────────
   {
     id:'pancit-001',
@@ -279,7 +268,6 @@ export const FILIPINO_RECIPES = [
     nutrition:{calories:385,protein_g:24,carbs_g:55,fat_g:8,fiber_g:4},
     total_cost_php:323,tags:['pancit','birthday','noodles','celebration'],
     tips:'Do not over-soak the noodles. They should still be slightly firm when added to the wok.',
-    rating:4.8,reviews:2567
   },
   {
     id:'lomi-001',
@@ -308,9 +296,7 @@ export const FILIPINO_RECIPES = [
     nutrition:{calories:455,protein_g:28,carbs_g:58,fat_g:14,fiber_g:2},
     total_cost_php:274,tags:['lomi','Batangas','noodle soup','hearty'],
     tips:"Real Batangas lomi is VERY thick. Don't be shy with the cornstarch!",
-    rating:4.7,reviews:1123
   },
-
   // ─── RICE ──────────────────────────────────────────────────────
   {
     id:'sinangag-001',
@@ -334,7 +320,6 @@ export const FILIPINO_RECIPES = [
     nutrition:{calories:245,protein_g:5,carbs_g:48,fat_g:6,fiber_g:1},
     total_cost_php:44,tags:['sinangag','breakfast','garlic rice','silog'],
     tips:'Day-old refrigerated rice is key for the best texture. Fresh rice will be mushy.',
-    rating:4.9,reviews:4123
   },
   {
     id:'arroz-001',
@@ -363,9 +348,7 @@ export const FILIPINO_RECIPES = [
     nutrition:{calories:295,protein_g:22,carbs_g:38,fat_g:6,fiber_g:1},
     total_cost_php:283,tags:['arroz caldo','porridge','comfort food','sick day'],
     tips:"Double the ginger if making this for someone sick — it has natural anti-inflammatory properties!",
-    rating:4.8,reviews:2876
   },
-
   // ─── SOUPS ────────────────────────────────────────────────────
   {
     id:'bulalo-001',
@@ -392,7 +375,6 @@ export const FILIPINO_RECIPES = [
     nutrition:{calories:380,protein_g:38,carbs_g:20,fat_g:16,fiber_g:3},
     total_cost_php:700,tags:['bulalo','beef','bone broth','Batangas','special'],
     tips:"The longer it cooks, the richer the broth. Add fish sauce at the end — never during cooking.",
-    rating:4.9,reviews:2987
   },
   {
     id:'tinola-001',
@@ -419,9 +401,7 @@ export const FILIPINO_RECIPES = [
     nutrition:{calories:240,protein_g:28,carbs_g:12,fat_g:8,fiber_g:3},
     total_cost_php:282,tags:['tinola','healthy','ginger soup','light','malunggay'],
     tips:'Malunggay is a Filipino superfood. Add it last to preserve nutrients.',
-    rating:4.7,reviews:1876
   },
-
   // ─── SNACKS & STREET FOOD ─────────────────────────────────────
   {
     id:'lumpia-001',
@@ -450,7 +430,6 @@ export const FILIPINO_RECIPES = [
     nutrition:{calories:165,protein_g:10,carbs_g:14,fat_g:8,fiber_g:1},
     total_cost_php:281,tags:['lumpia','party food','crispy','fried','crowd-pleaser'],
     tips:'Freeze uncooked lumpia for up to 3 months. Fry directly from frozen for best results.',
-    rating:4.9,reviews:3890
   },
   {
     id:'kwek-001',
@@ -478,9 +457,7 @@ export const FILIPINO_RECIPES = [
     nutrition:{calories:185,protein_g:9,carbs_g:22,fat_g:7,fiber_g:0},
     total_cost_php:132,tags:['kwek kwek','street food','quail eggs','snack'],
     tips:'The batter should be thick enough to coat the back of a spoon. Add more flour if too thin.',
-    rating:4.8,reviews:2234
   },
-
   // ─── DESSERTS ─────────────────────────────────────────────────
   {
     id:'leche-001',
@@ -505,7 +482,6 @@ export const FILIPINO_RECIPES = [
     nutrition:{calories:295,protein_g:9,carbs_g:42,fat_g:10,fiber_g:0},
     total_cost_php:200,tags:['leche flan','dessert','celebration','custard','Noche Buena'],
     tips:'Never open the cover while steaming. The steam is key to a smooth non-bubbly flan.',
-    rating:4.9,reviews:3678
   },
   {
     id:'halo-001',
@@ -534,7 +510,6 @@ export const FILIPINO_RECIPES = [
     nutrition:{calories:420,protein_g:8,carbs_g:78,fat_g:9,fiber_g:4},
     total_cost_php:325,tags:['halo-halo','summer','cold dessert','Filipino classic'],
     tips:'The key is balance — not too many of any single ingredient. Layer by color for Instagram-worthy presentation!',
-    rating:4.9,reviews:4234
   },
   {
     id:'turon-001',
@@ -558,9 +533,7 @@ export const FILIPINO_RECIPES = [
     nutrition:{calories:265,protein_g:2,carbs_g:52,fat_g:6,fiber_g:2},
     total_cost_php:135,tags:['turon','banana','merienda','sweet snack','street food'],
     tips:'Saba banana is crucial — regular bananas are too soft. The caramelized sugar coating is the magic!',
-    rating:4.8,reviews:2890
   },
-
   // ─── BREAKFAST ────────────────────────────────────────────────
   {
     id:'tapsilog-001',
@@ -586,7 +559,6 @@ export const FILIPINO_RECIPES = [
     nutrition:{calories:520,protein_g:36,carbs_g:52,fat_g:18,fiber_g:1},
     total_cost_php:239,tags:['tapsilog','breakfast','silog','tapa'],
     tips:'Tapa is best when slightly caramelized. The leftover marinade can be poured over the cooked tapa!',
-    rating:4.8,reviews:3234
   },
   {
     id:'champorado-001',
@@ -610,9 +582,7 @@ export const FILIPINO_RECIPES = [
     nutrition:{calories:310,protein_g:5,carbs_g:62,fat_g:5,fiber_g:1},
     total_cost_php:97,tags:['champorado','chocolate','breakfast','rainy day'],
     tips:'Real tablea native chocolate tablets give a deeper less sweet flavor than cocoa powder.',
-    rating:4.8,reviews:2567
   },
-
   // ─── MORE MAIN DISHES ─────────────────────────────────────────
   {
     id:'menudo-001',
@@ -640,7 +610,6 @@ export const FILIPINO_RECIPES = [
     nutrition:{calories:340,protein_g:26,carbs_g:22,fat_g:16,fiber_g:3},
     total_cost_php:326,tags:['menudo','pork','tomato sauce','everyday'],
     tips:'Add liver last to prevent it from becoming rubbery. It only needs 5 minutes to cook through.',
-    rating:4.6,reviews:1543
   },
   {
     id:'dinuguan-001',
@@ -667,9 +636,7 @@ export const FILIPINO_RECIPES = [
     nutrition:{calories:295,protein_g:24,carbs_g:8,fat_g:18,fiber_g:0},
     total_cost_php:276,tags:['dinuguan','blood stew','unique','pork'],
     tips:'Never cover the pot while adding vinegar or it will taste bitter. Dish should be dark brown not black.',
-    rating:4.5,reviews:987
   },
-
   // ─── NEW DISHES ───────────────────────────────────────────────
   {
     id:'pork-steak-001',
@@ -694,7 +661,7 @@ export const FILIPINO_RECIPES = [
     ],
     nutrition:{calories:310,protein_g:26,carbs_g:6,fat_g:19,fiber_g:0},
     total_cost_php:296,tags:['pork','everyday','calamansi'],
-    tips:'Rest the pork 5 minutes before serving so juices stay inside.',rating:4.6,reviews:1230
+    tips:'Rest the pork 5 minutes before serving so juices stay inside.',
   },
   {
     id:'sinigang-hipon-001',
@@ -718,7 +685,7 @@ export const FILIPINO_RECIPES = [
     ],
     nutrition:{calories:155,protein_g:22,carbs_g:10,fat_g:2,fiber_g:3},
     total_cost_php:258,tags:['sinigang','shrimp','seafood','light'],
-    tips:'Add shrimp last — they only need 3-4 minutes or they get rubbery.',rating:4.8,reviews:1876
+    tips:'Add shrimp last — they only need 3-4 minutes or they get rubbery.',
   },
   {
     id:'longganisa-001',
@@ -737,7 +704,7 @@ export const FILIPINO_RECIPES = [
     ],
     nutrition:{calories:280,protein_g:12,carbs_g:14,fat_g:19,fiber_g:0},
     total_cost_php:123,tags:['longganisa','breakfast','silog','sweet'],
-    tips:'Never pierce the casing — let fat render naturally for juicier sausages.',rating:4.8,reviews:2100
+    tips:'Never pierce the casing — let fat render naturally for juicier sausages.',
   },
   {
     id:'tocino-001',
@@ -759,7 +726,7 @@ export const FILIPINO_RECIPES = [
     ],
     nutrition:{calories:295,protein_g:22,carbs_g:16,fat_g:15,fiber_g:0},
     total_cost_php:197,tags:['tocino','breakfast','sweet','cured'],
-    tips:'Overnight marinating gives the best flavor. Serve as tosilog with garlic rice and egg.',rating:4.7,reviews:1890
+    tips:'Overnight marinating gives the best flavor. Serve as tosilog with garlic rice and egg.',
   },
   {
     id:'chicken-inasal-001',
@@ -783,7 +750,7 @@ export const FILIPINO_RECIPES = [
     ],
     nutrition:{calories:350,protein_g:36,carbs_g:4,fat_g:20,fiber_g:0},
     total_cost_php:262,tags:['inasal','grilled','Visayas','Bacolod'],
-    tips:'Constant basting with annatto-butter while grilling gives that signature golden color.',rating:4.9,reviews:2980
+    tips:'Constant basting with annatto-butter while grilling gives that signature golden color.',
   },
   {
     id:'palabok-001',
@@ -812,7 +779,7 @@ export const FILIPINO_RECIPES = [
     ],
     nutrition:{calories:420,protein_g:26,carbs_g:58,fat_g:10,fiber_g:2},
     total_cost_php:415,tags:['palabok','noodles','shrimp','fiesta'],
-    tips:'Sauce should be thick enough to coat noodles without pooling. Serve immediately.',rating:4.9,reviews:2670
+    tips:'Sauce should be thick enough to coat noodles without pooling. Serve immediately.',
   },
   {
     id:'bicol-express-001',
@@ -838,7 +805,7 @@ export const FILIPINO_RECIPES = [
     ],
     nutrition:{calories:480,protein_g:20,carbs_g:8,fat_g:40,fiber_g:2},
     total_cost_php:300,tags:['bicol express','spicy','coconut','Bicol'],
-    tips:'Real Bicolanos use A LOT of labuyo. Adjust chili to your heat preference.',rating:4.8,reviews:2130
+    tips:'Real Bicolanos use A LOT of labuyo. Adjust chili to your heat preference.',
   },
   {
     id:'tortang-talong-001',
@@ -861,7 +828,7 @@ export const FILIPINO_RECIPES = [
     ],
     nutrition:{calories:185,protein_g:9,carbs_g:12,fat_g:11,fiber_g:4},
     total_cost_php:86,tags:['tortang talong','eggplant','breakfast','budget'],
-    tips:'Charring the eggplant directly on flame gives the smoky flavor. Never skip this step.',rating:4.8,reviews:2340
+    tips:'Charring the eggplant directly on flame gives the smoky flavor. Never skip this step.',
   },
   {
     id:'sopas-001',
@@ -887,7 +854,7 @@ export const FILIPINO_RECIPES = [
     ],
     nutrition:{calories:310,protein_g:22,carbs_g:38,fat_g:7,fiber_g:2},
     total_cost_php:285,tags:['sopas','macaroni','creamy','comfort food'],
-    tips:'Add butter at the end for extra richness. Serve immediately before pasta absorbs too much broth.',rating:4.8,reviews:2210
+    tips:'Add butter at the end for extra richness. Serve immediately before pasta absorbs too much broth.',
   },
   {
     id:'maja-blanca-001',
@@ -911,7 +878,7 @@ export const FILIPINO_RECIPES = [
     ],
     nutrition:{calories:220,protein_g:3,carbs_g:40,fat_g:6,fiber_g:1},
     total_cost_php:200,tags:['maja blanca','coconut pudding','dessert','latik'],
-    tips:'Never stop stirring or the bottom will burn. Must be very thick before pouring into pan.',rating:4.8,reviews:1870
+    tips:'Never stop stirring or the bottom will burn. Must be very thick before pouring into pan.',
   },
   {
     id:'embutido-001',
@@ -937,7 +904,7 @@ export const FILIPINO_RECIPES = [
     ],
     nutrition:{calories:320,protein_g:22,carbs_g:14,fat_g:20,fiber_g:1},
     total_cost_php:310,tags:['embutido','meatloaf','party food','steamed'],
-    tips:'Always cool completely before slicing or it will fall apart. Can be frozen up to 1 month.',rating:4.7,reviews:1456
+    tips:'Always cool completely before slicing or it will fall apart. Can be frozen up to 1 month.',
   },
   {
     id:'bangus-ala-pobre-001',
@@ -961,7 +928,7 @@ export const FILIPINO_RECIPES = [
     ],
     nutrition:{calories:310,protein_g:28,carbs_g:6,fat_g:19,fiber_g:1},
     total_cost_php:188,tags:['bangus','milkfish','garlic butter','seafood'],
-    tips:'Use dayap key lime instead of calamansi for a more fragrant sauce.',rating:4.7,reviews:1420
+    tips:'Use dayap key lime instead of calamansi for a more fragrant sauce.',
   },
   {
     id:'ginataan-bilo-001',
@@ -987,7 +954,7 @@ export const FILIPINO_RECIPES = [
     ],
     nutrition:{calories:285,protein_g:3,carbs_g:52,fat_g:8,fiber_g:3},
     total_cost_php:197,tags:['ginataan','coconut','dessert','merienda'],
-    tips:'Chill 2 hours and serve over ice for a refreshing summer version.',rating:4.8,reviews:1540
+    tips:'Chill 2 hours and serve over ice for a refreshing summer version.',
   },
   {
     id:'sisig-001',
@@ -1014,7 +981,7 @@ export const FILIPINO_RECIPES = [
     ],
     nutrition:{calories:420,protein_g:28,carbs_g:6,fat_g:32,fiber_g:1},
     total_cost_php:214,tags:['sisig','Pampanga','sizzling','pulutan'],
-    tips:'The sizzling plate must be extremely hot for authentic sisig. Serve with cold beer!',rating:4.9,reviews:3450
+    tips:'The sizzling plate must be extremely hot for authentic sisig. Serve with cold beer!',
   },
   {
     id:'laing-001',
@@ -1041,7 +1008,7 @@ export const FILIPINO_RECIPES = [
     ],
     nutrition:{calories:380,protein_g:14,carbs_g:18,fat_g:30,fiber_g:8},
     total_cost_php:244,tags:['laing','taro','Bicol','coconut'],
-    tips:'Never wash or stir dried taro early or it will cause intense itching. The coconut milk neutralizes it.',rating:4.8,reviews:1320
+    tips:'Never wash or stir dried taro early or it will cause intense itching. The coconut milk neutralizes it.',
   },
   {
     id:'kinilaw-001',
@@ -1065,7 +1032,7 @@ export const FILIPINO_RECIPES = [
     ],
     nutrition:{calories:160,protein_g:28,carbs_g:5,fat_g:3,fiber_g:1},
     total_cost_php:254,tags:['kinilaw','ceviche','Visayas','no cook','seafood'],
-    tips:'Use only the freshest sashimi-grade fish. The vinegar cures but does not fully cook the fish.',rating:4.7,reviews:1230
+    tips:'Use only the freshest sashimi-grade fish. The vinegar cures but does not fully cook the fish.',
   },
   {
     id:'adobong-kangkong-001',
@@ -1087,7 +1054,7 @@ export const FILIPINO_RECIPES = [
     ],
     nutrition:{calories:75,protein_g:4,carbs_g:8,fat_g:4,fiber_g:3},
     total_cost_php:51,tags:['kangkong','vegetable','adobo','budget','healthy'],
-    tips:'Cook on very high heat for just 2 minutes — overcooking makes it slimy.',rating:4.5,reviews:876
+    tips:'Cook on very high heat for just 2 minutes — overcooking makes it slimy.',
   },
   {
     id:'lechon-paksiw-001',
@@ -1112,7 +1079,7 @@ export const FILIPINO_RECIPES = [
     ],
     nutrition:{calories:480,protein_g:32,carbs_g:12,fat_g:32,fiber_g:1},
     total_cost_php:381,tags:['lechon paksiw','leftovers','liver sauce','pork'],
-    tips:'The best lechon paksiw is made from real Cebu lechon with crispy skin.',rating:4.7,reviews:1120
+    tips:'The best lechon paksiw is made from real Cebu lechon with crispy skin.',
   },
   {
     id:'pinakbet-002',
@@ -1139,10 +1106,9 @@ export const FILIPINO_RECIPES = [
     ],
     nutrition:{calories:210,protein_g:12,carbs_g:18,fat_g:10,fiber_g:7},
     total_cost_php:221,tags:['pinakbet','vegetables','bagoong','pork'],
-    tips:'Do not overcook the vegetables — they should still have a slight bite.',rating:4.5,reviews:987
+    tips:'Do not overcook the vegetables — they should still have a slight bite.',
   },
 ]
-
 // ─── Category Index ────────────────────────────────────────────
 // `icon` keys map to premium SVG components in components/icons/FoodIcons.jsx
 export const CATEGORIES = [
@@ -1155,7 +1121,6 @@ export const CATEGORIES = [
   { id:'Dessert',   label:'Desserts',       icon:'dessert',   count: 0 },
   { id:'Breakfast', label:'Breakfast',      icon:'breakfast', count: 0 },
 ]
-
 // ─── Price Categories ──────────────────────────────────────────
 export const PRICE_CATEGORIES = [
   { id:'vegetables', label:'Vegetables',    icon:'vegetables', items:['Tomato','Onion','Garlic','Potato','Cabbage','Pechay','Kangkong','Ampalaya','Sitaw','Carrot','Eggplant','Squash','Ginger','Lemongrass','Bell pepper'] },
