@@ -9,6 +9,11 @@ service cloud.firestore {
     match /users/{uid} {
       allow read: if request.auth != null;
       allow write: if request.auth != null && request.auth.uid == uid;
+      // Following/unfollowing someone else requires writing to THEIR doc
+      // to update followers/followedBy — restricted to just those two
+      // fields so no one can touch the rest of another user's profile.
+      allow update: if request.auth != null &&
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['followers','followedBy']);
     }
 
     // Cookbooks: users can only CRUD their own recipes

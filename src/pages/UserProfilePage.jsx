@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react'
-import { doc, getDoc, collection, query, where, orderBy, getDocs, onSnapshot,
-         updateDoc, arrayUnion, arrayRemove, increment, addDoc, serverTimestamp } from 'firebase/firestore'
+import { doc, collection, query, where, orderBy, onSnapshot,
+         arrayUnion, arrayRemove, increment, addDoc, serverTimestamp, writeBatch } from 'firebase/firestore'
 import { db } from '../services/firebase'
 import { useAuth } from '../hooks/useAuth'
 import { useToast } from '../hooks/useToast'
 import ToastContainer from '../components/ui/ToastContainer'
-import { ArrowLeft, Users, BookOpen, Heart, UserCheck, UserPlus, Globe } from 'lucide-react'
+import { ArrowLeft, Users, BookOpen, Heart, UserCheck, UserPlus, Calendar } from 'lucide-react'
 
 function timeAgo(ts) {
   if (!ts) return ''
@@ -16,6 +16,18 @@ function timeAgo(ts) {
   if (s < 86400) return `${Math.floor(s/3600)}h ago`
   return d.toLocaleDateString('en-PH', { month:'short', day:'numeric' })
 }
+
+function formatJoinDate(ts) {
+  if (!ts) return null
+  const d = ts.toDate ? ts.toDate() : new Date(ts)
+  return d.toLocaleDateString('en-PH', { month:'long', year:'numeric' })
+}
+
+const PROFILE_STAT_ITEMS = [
+  { key:'posts',     label:'Posts',     icon:BookOpen, color:'var(--brand)' },
+  { key:'followers', label:'Followers', icon:Users,    color:'var(--green)' },
+  { key:'following', label:'Following', icon:UserCheck,color:'var(--amber)' },
+]
 
 function Avatar({ name, photo, size = 72 }) {
   const initials = (name||'U').split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase()
@@ -43,7 +55,7 @@ export default function UserProfilePage({ targetUid, onBack }) {
   // Load target profile (live)
   useEffect(() => {
     if (!targetUid) return
-    setLoadingProfile(true)
+    queueMicrotask(() => setLoadingProfile(true))
     const unsub = onSnapshot(doc(db, 'users', targetUid), snap => {
       if (snap.exists()) setTargetProfile({ uid: snap.id, ...snap.data() })
       setLoadingProfile(false)
@@ -54,13 +66,14 @@ export default function UserProfilePage({ targetUid, onBack }) {
   // Check if I already follow this user
   useEffect(() => {
     if (!myProfile || !targetUid) return
-    setFollowing((myProfile.followingList || []).includes(targetUid))
+    const isFollowing = (myProfile.followingList || []).includes(targetUid)
+    queueMicrotask(() => setFollowing(isFollowing))
   }, [myProfile, targetUid])
 
   // Load their public posts
   useEffect(() => {
     if (!targetUid) return
-    setLoadingPosts(true)
+    queueMicrotask(() => setLoadingPosts(true))
     const q = query(collection(db, 'posts'), where('uid', '==', targetUid), orderBy('createdAt', 'desc'))
     const unsub = onSnapshot(q, snap => {
       setPosts(snap.docs.map(d => ({ id: d.id, ...d.data() })))
@@ -74,20 +87,25 @@ export default function UserProfilePage({ targetUid, onBack }) {
     if (!user || isMe) return
     setFollowLoading(true)
     try {
-      const myRef     = doc(db, 'users', user.uid)
-      const theirRef  = doc(db, 'users', targetUid)
+      const myRef    = doc(db, 'users', user.uid)
+      const theirRef = doc(db, 'users', targetUid)
+      const batch    = writeBatch(db)
 
       if (following) {
-        // Unfollow
-        await updateDoc(myRef,   { followingList: arrayRemove(targetUid), following: increment(-1) })
-        await updateDoc(theirRef,{ followedBy:    arrayRemove(user.uid),  followers: increment(-1) })
-        await updateMyProfile({ following: (myProfile.following || 1) - 1 })
+        // Unfollow — both sides update together, or neither does
+        batch.update(myRef,    { followingList: arrayRemove(targetUid), following: increment(-1) })
+        batch.update(theirRef, { followedBy:    arrayRemove(user.uid),  followers: increment(-1) })
+        await batch.commit()
+
+        await updateMyProfile({ following: Math.max(0, (myProfile.following || 1) - 1) })
         setFollowing(false)
         success(`Unfollowed ${targetProfile?.displayName}`)
       } else {
         // Follow
-        await updateDoc(myRef,   { followingList: arrayUnion(targetUid), following: increment(1) })
-        await updateDoc(theirRef,{ followedBy:    arrayUnion(user.uid),  followers: increment(1) })
+        batch.update(myRef,    { followingList: arrayUnion(targetUid), following: increment(1) })
+        batch.update(theirRef, { followedBy:    arrayUnion(user.uid),  followers: increment(1) })
+        await batch.commit()
+
         await updateMyProfile({ following: (myProfile.following || 0) + 1 })
 
         // Send notification to followed user
@@ -168,26 +186,31 @@ export default function UserProfilePage({ targetUid, onBack }) {
           {/* Name + handle + bio */}
           <div className="user-profile-info">
             <h2 className="user-profile-name">{targetProfile.displayName || 'Anonymous Cook'}</h2>
-            <div className="user-profile-handle">@{(targetProfile.email||'').split('@')[0]}</div>
+            <div className="user-profile-handle-row">
+              <span className="user-profile-handle">@{(targetProfile.email||'').split('@')[0]}</span>
+              {formatJoinDate(targetProfile.joinedAt) && (
+                <span className="user-profile-joined">
+                  <Calendar size={11}/> Joined {formatJoinDate(targetProfile.joinedAt)}
+                </span>
+              )}
+            </div>
             {targetProfile.bio && (
               <p className="user-profile-bio">{targetProfile.bio}</p>
             )}
           </div>
 
           {/* Stats — only show public stats */}
-          <div className="user-profile-stats">
-            <div className="user-stat-item">
-              <span className="user-stat-val">{posts.length}</span>
-              <span className="user-stat-lbl">Posts</span>
-            </div>
-            <div className="user-stat-item">
-              <span className="user-stat-val">{targetProfile.followers || 0}</span>
-              <span className="user-stat-lbl">Followers</span>
-            </div>
-            <div className="user-stat-item">
-              <span className="user-stat-val">{targetProfile.following || 0}</span>
-              <span className="user-stat-lbl">Following</span>
-            </div>
+          <div className="user-profile-stats-grid">
+            {PROFILE_STAT_ITEMS.map(({ key, label, icon:Icon, color }) => {
+              const val = key==='posts' ? posts.length : (targetProfile[key] || 0)
+              return (
+                <div key={key} className="user-profile-stat-card">
+                  <Icon size={15} style={{ color }} strokeWidth={2}/>
+                  <span className="user-profile-stat-val" style={{ color }}>{val}</span>
+                  <span className="user-profile-stat-lbl">{label}</span>
+                </div>
+              )
+            })}
           </div>
         </div>
       </div>

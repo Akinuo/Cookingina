@@ -1076,18 +1076,37 @@ select.input-field   { cursor:pointer; }
 ───────────────────────────────────────────────────────────────── */
 .user-profile-page { width:100%; max-width:680px; margin:0 auto; }
 .user-profile-card { overflow:visible !important; }
-.user-profile-cover { height:clamp(80px,15vw,120px); background:linear-gradient(135deg,#2C1810,#8C3F22); border-radius:var(--r-lg) var(--r-lg) 0 0; }
+.user-profile-cover {
+  height:clamp(80px,15vw,120px);
+  background:
+    radial-gradient(circle at 15% 30%, rgba(255,255,255,0.10) 0%, transparent 45%),
+    radial-gradient(circle at 85% 75%, rgba(255,255,255,0.08) 0%, transparent 50%),
+    linear-gradient(135deg,#2C1810,#8C3F22);
+  border-radius:var(--r-lg) var(--r-lg) 0 0;
+}
 .user-profile-body { padding:clamp(14px,3vw,24px); padding-top:0; }
 .user-profile-top  { display:flex; align-items:flex-end; justify-content:space-between; margin-top:clamp(-32px,-6vw,-44px); margin-bottom:clamp(14px,2.5vw,20px); flex-wrap:wrap; gap:var(--space-3); }
 .user-profile-avatar-wrap { border:4px solid var(--surface); border-radius:50%; box-shadow:var(--shadow-md); overflow:hidden; flex-shrink:0; }
 .user-profile-info { margin-bottom:clamp(14px,2.5vw,20px); }
 .user-profile-name   { font-family:var(--font-serif); font-size:clamp(1.25rem,4vw,1.625rem); font-weight:700; color:var(--ink); margin-bottom:2px; letter-spacing:-0.02em; }
-.user-profile-handle { font-size:0.8rem; color:var(--ink-4); margin-bottom:var(--space-2); }
+.user-profile-handle-row { display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:var(--space-2); }
+.user-profile-handle { font-size:0.8rem; color:var(--ink-4); }
+.user-profile-joined { display:inline-flex; align-items:center; gap:4px; font-size:0.72rem; color:var(--ink-4); }
 .user-profile-bio    { font-size:0.9rem; color:var(--ink-2); line-height:1.65; }
-.user-profile-stats  { display:flex; gap:clamp(16px,4vw,32px); padding:clamp(12px,2.5vw,18px) 0; border-top:1px solid var(--border); }
-.user-stat-item  { text-align:center; }
-.user-stat-val   { display:block; font-family:var(--font-serif); font-size:clamp(1.2rem,3vw,1.5rem); font-weight:700; color:var(--brand); letter-spacing:-0.02em; }
-.user-stat-lbl   { font-size:0.6875rem; color:var(--ink-4); text-transform:uppercase; letter-spacing:0.06em; font-weight:600; }
+
+.user-profile-stats-grid {
+  display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(6px,1.5vw,12px);
+  padding-top:clamp(12px,2.5vw,18px); border-top:1px solid var(--border);
+}
+.user-profile-stat-card {
+  display:flex; flex-direction:column; align-items:center; gap:5px;
+  text-align:center; padding:clamp(10px,2vw,16px) 4px;
+  background:var(--surface-2); border-radius:var(--r-md); border:1px solid var(--border);
+  transition:transform var(--t), box-shadow var(--t);
+}
+.user-profile-stat-card:hover { transform:translateY(-1px); box-shadow:var(--shadow-sm); }
+.user-profile-stat-val { font-family:var(--font-serif); font-size:clamp(1.1rem,2.8vw,1.375rem); font-weight:700; letter-spacing:-0.02em; }
+.user-profile-stat-lbl { font-size:clamp(0.55rem,1.2vw,0.65rem); color:var(--ink-4); text-transform:uppercase; letter-spacing:0.07em; font-weight:600; }
 .user-posts-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(3px,1vw,6px); }
 @media (max-width:400px) { .user-posts-grid { grid-template-columns:repeat(2,1fr); } }
 .user-post-thumb { position:relative; aspect-ratio:1/1; overflow:hidden; cursor:pointer; border-radius:var(--r-sm); background:var(--surface-2); border:1px solid var(--border); }
@@ -1095,6 +1114,11 @@ select.input-field   { cursor:pointer; }
 .user-post-thumb:hover .user-post-thumb-img { transform:scale(1.06); }
 .user-post-thumb-no-img { width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:var(--surface-3); }
 .user-post-thumb-no-img svg { width:28px; height:28px; color:var(--border-dk); opacity:0.4; }
+.user-post-thumb-emoji {
+  width:100%; height:100%; display:flex; align-items:center; justify-content:center;
+  font-size:clamp(1.8rem,6vw,2.4rem);
+  background:linear-gradient(135deg,var(--surface-3) 0%,var(--surface-2) 100%);
+}
 .user-post-thumb-overlay { position:absolute; inset:0; background:linear-gradient(to top,rgba(28,25,21,0.6) 0%,transparent 55%); display:flex; align-items:flex-end; justify-content:space-between; padding:7px 8px; opacity:0; transition:opacity var(--t); }
 .user-post-thumb:hover .user-post-thumb-overlay { opacity:1; }
 .user-post-thumb-likes { color:#fff; font-size:0.7rem; font-weight:600; display:flex; align-items:center; gap:3px; }
