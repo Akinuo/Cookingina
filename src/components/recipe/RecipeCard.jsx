@@ -58,8 +58,9 @@ function DiffTag({ difficulty }) {
   return <span className={`tag ${cls}`}>{difficulty}</span>
 }
 
-export default function RecipeCard({ recipe, onClick, onLike, onSave, liked, saved }) {
+export default function RecipeCard({ recipe, onClick, onLike, onSave, liked, saved, matchInfo }) {
   const totalTime = (recipe.prep_time||0) + (recipe.cook_time||0)
+  const showMatch = matchInfo && matchInfo.total > 0
 
   return (
     <div className="recipe-card" onClick={onClick}>
@@ -76,6 +77,11 @@ export default function RecipeCard({ recipe, onClick, onLike, onSave, liked, sav
 
         {recipe.category && <span className="recipe-card-badge">{recipe.category}</span>}
         {recipe.source==='mealdb' && <span className="recipe-mealdb-badge">MealDB</span>}
+        {showMatch && (
+          <span className={`recipe-match-badge${matchInfo.have===matchInfo.total?' full':''}`}>
+            {matchInfo.have}/{matchInfo.total} you have
+          </span>
+        )}
 
         <div className="recipe-card-actions" onClick={e => e.stopPropagation()}>
           <button className={`icon-btn${liked?' liked':''}`} onClick={() => onLike?.(recipe.id)}>

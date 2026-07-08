@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect, useCallback } from 'react'
-import { Search, Sparkles, TrendingUp, SlidersHorizontal, X, RefreshCw, Globe, ArrowRight, UtensilsCrossed } from 'lucide-react'
+import { Search, Sparkles, TrendingUp, SlidersHorizontal, X, RefreshCw, Globe, UtensilsCrossed } from 'lucide-react'
 import RecipeCard from '../components/recipe/RecipeCard'
 import RecipeDetail from '../components/recipe/RecipeDetail'
 import { FILIPINO_RECIPES, CATEGORIES } from '../data/recipes'
@@ -16,11 +16,56 @@ const CAT_ICONS = {
   rice: IconRice, snack: IconSnack, dessert: IconDessert, breakfast: IconBreakfast,
 }
 
+const CALORIE_OPTIONS = [
+  { id:'all',     label:'Any calories' },
+  { id:'under300', label:'Under 300 kcal' },
+  { id:'under500', label:'Under 500 kcal' },
+  { id:'500plus',  label:'500+ kcal' },
+]
+
+function matchesCalorieFilter(recipe, filter) {
+  if (filter === 'all') return true
+  const cal = recipe.nutrition?.calories
+  if (cal == null) return false // MealDB recipes have no nutrition data — can't verify, so excluded rather than guessed
+  if (filter === 'under300') return cal < 300
+  if (filter === 'under500') return cal < 500
+  if (filter === '500plus')  return cal >= 500
+  return true
+}
+
+function matchesProteinFilter(recipe, highProtein) {
+  if (!highProtein) return true
+  const p = recipe.nutrition?.protein_g
+  return p != null && p >= 20
+}
+
+// Normalizes an ingredient/search term for loose matching (lowercase, no
+// accents/punctuation) so "Sili" matches "sili" and small typos like
+// trailing 's' still line up.
+function normTerm(s) {
+  return (s || '').toLowerCase().trim().replace(/[^a-z0-9\s]/g, '')
+}
+
+function ingredientMatchCount(recipe, haveList) {
+  if (!recipe.ingredients?.length || !haveList.length) return { have: 0, total: recipe.ingredients?.length || 0 }
+  const haveNorm = haveList.map(normTerm)
+  let have = 0
+  for (const ing of recipe.ingredients) {
+    const n = normTerm(ing.name)
+    if (haveNorm.some(h => h && (n.includes(h) || h.includes(n)))) have++
+  }
+  return { have, total: recipe.ingredients.length }
+}
+
 export default function HomePage({ onNavigate }) {
   const [search, setSearch]     = useState('')
   const [category, setCategory] = useState('all')
   const [difficulty, setDifficulty] = useState('all')
   const [source, setSource]     = useState('all')
+  const [calorieFilter, setCalorieFilter] = useState('all')
+  const [highProtein, setHighProtein]     = useState(false)
+  const [haveIngredients, setHaveIngredients] = useState([])
+  const [ingredientInput, setIngredientInput] = useState('')
   const [selected, setSelected] = useState(null)
   const [liked, setLiked]       = useState(new Set())
   const [saved, setSaved]       = useState(new Set())
@@ -55,12 +100,39 @@ export default function HomePage({ onNavigate }) {
       && (category==='all' || r.category?.toLowerCase().replace(/\s+/g,'')===category.replace(/\s+/g,''))
       && (difficulty==='all' || r.difficulty===difficulty)
       && (source==='all' || r.source===source)
-  }), [allRecipes, search, category, difficulty, source])
+      && matchesCalorieFilter(r, calorieFilter)
+      && matchesProteinFilter(r, highProtein)
+  }), [allRecipes, search, category, difficulty, source, calorieFilter, highProtein])
+
+  // When the person has listed ingredients they have on hand, re-sort
+  // (don't hard-filter — a recipe missing 1 of 8 ingredients is still
+  // worth showing) by how many of the recipe's ingredients they already
+  // have, most-matching first.
+  const { sorted, matchMap } = useMemo(() => {
+    if (!haveIngredients.length) return { sorted: filtered, matchMap: null }
+    const map = new Map()
+    const withScore = filtered.map(r => {
+      const m = ingredientMatchCount(r, haveIngredients)
+      map.set(r.id, m)
+      return { r, score: m.total ? m.have / m.total : 0, have: m.have }
+    })
+    withScore.sort((a, b) => (b.score - a.score) || (b.have - a.have))
+    return { sorted: withScore.map(x => x.r), matchMap: map }
+  }, [filtered, haveIngredients])
+
+  const addIngredient = () => {
+    const v = ingredientInput.trim()
+    if (v && !haveIngredients.some(i => i.toLowerCase()===v.toLowerCase())) {
+      setHaveIngredients(list => [...list, v])
+    }
+    setIngredientInput('')
+  }
+  const removeIngredient = (i) => setHaveIngredients(list => list.filter((_,idx) => idx!==i))
 
   const toggleLike = id => setLiked(s => { const n=new Set(s); n.has(id)?n.delete(id):n.add(id); return n })
   const toggleSave = id => setSaved(s => { const n=new Set(s); n.has(id)?n.delete(id):n.add(id); return n })
-  const hasFilters  = search || category!=='all' || difficulty!=='all' || source!=='all'
-  const clearAll    = () => { setSearch(''); setCategory('all'); setDifficulty('all'); setSource('all') }
+  const hasFilters  = search || category!=='all' || difficulty!=='all' || source!=='all' || calorieFilter!=='all' || highProtein || haveIngredients.length>0
+  const clearAll    = () => { setSearch(''); setCategory('all'); setDifficulty('all'); setSource('all'); setCalorieFilter('all'); setHighProtein(false); setHaveIngredients([]) }
 
   return (
     <div className="discover-page">
@@ -135,7 +207,7 @@ export default function HomePage({ onNavigate }) {
           <button className={`filter-toggle-btn${showFilters?' active':''}`} onClick={() => setShowFilters(v=>!v)}>
             <SlidersHorizontal size={14} strokeWidth={2}/>
             <span>Filter</span>
-            {(category!=='all'||difficulty!=='all'||source!=='all') && <span className="filter-dot"/>}
+            {(category!=='all'||difficulty!=='all'||source!=='all'||calorieFilter!=='all'||highProtein||haveIngredients.length>0) && <span className="filter-dot"/>}
           </button>
         </div>
 
@@ -174,6 +246,39 @@ export default function HomePage({ onNavigate }) {
                 ))}
               </div>
             </div>
+            <div className="filter-row-group stacked">
+              <span className="filter-group-label">Nutrition</span>
+              <div className="filter-pill-group">
+                {CALORIE_OPTIONS.map(o => (
+                  <button key={o.id} className={`filter-pill${calorieFilter===o.id?' active':''}`} onClick={() => setCalorieFilter(o.id)}>
+                    {o.label}
+                  </button>
+                ))}
+                <button className={`filter-pill${highProtein?' active':''}`} onClick={() => setHighProtein(v=>!v)}>
+                  High Protein (20g+)
+                </button>
+              </div>
+              <p className="filter-group-hint">MealDB recipes don't have nutrition data, so they're excluded when a nutrition filter is on.</p>
+            </div>
+            <div className="filter-row-group stacked">
+              <span className="filter-group-label">What's in your kitchen?</span>
+              <div className="ingredient-chip-input">
+                {haveIngredients.map((ing, i) => (
+                  <span key={ing} className="ingredient-chip">
+                    {ing}
+                    <button onClick={() => removeIngredient(i)} aria-label={`Remove ${ing}`}><X size={11}/></button>
+                  </span>
+                ))}
+                <input
+                  value={ingredientInput}
+                  onChange={e => setIngredientInput(e.target.value)}
+                  onKeyDown={e => { if (e.key==='Enter' || e.key===',') { e.preventDefault(); addIngredient() } }}
+                  onBlur={addIngredient}
+                  placeholder={haveIngredients.length ? 'Add another…' : 'e.g. chicken, garlic, soy sauce'}
+                />
+              </div>
+              <p className="filter-group-hint">Type an ingredient and press Enter. Recipes you can mostly already make will sort to the top.</p>
+            </div>
           </div>
         )}
       </div>
@@ -185,12 +290,13 @@ export default function HomePage({ onNavigate }) {
           {category!=='all' && ` in ${CATEGORIES.find(c=>c.id===category)?.label}`}
           {difficulty!=='all' && ` · ${difficulty}`}
           {search && ` for "${search}"`}
+          {haveIngredients.length>0 && ` · sorted by what you have`}
         </span>
         {hasFilters && <button className="btn btn-ghost btn-sm" onClick={clearAll}><X size={12}/> Clear</button>}
       </div>
 
       {/* ── Grid ── */}
-      {filtered.length===0 ? (
+      {sorted.length===0 ? (
         <div className="empty-state">
           <UtensilsCrossed size={40} style={{ margin:'0 auto 12px', opacity:0.25 }}/>
           <h3>No recipes found</h3>
@@ -204,11 +310,12 @@ export default function HomePage({ onNavigate }) {
         </div>
       ) : (
         <div className="recipe-grid">
-          {filtered.map(recipe => (
+          {sorted.map(recipe => (
             <RecipeCard key={recipe.id} recipe={recipe}
               onClick={() => setSelected(recipe)}
               onLike={toggleLike} onSave={toggleSave}
-              liked={liked.has(recipe.id)} saved={saved.has(recipe.id)}/>
+              liked={liked.has(recipe.id)} saved={saved.has(recipe.id)}
+              matchInfo={matchMap?.get(recipe.id)}/>
           ))}
         </div>
       )}

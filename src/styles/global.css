@@ -423,6 +423,13 @@ p,span,h1,h2,h3,h4,h5,h6 { overflow-wrap:break-word; }
   border-radius:99px; text-transform:uppercase; letter-spacing:0.06em;
   backdrop-filter:blur(6px);
 }
+.recipe-match-badge {
+  position:absolute; bottom:8px; left:8px;
+  background:rgba(184,92,56,0.85); color:#fff;
+  font-size:0.6rem; font-weight:700; padding:3px 8px;
+  border-radius:99px; backdrop-filter:blur(6px);
+}
+.recipe-match-badge.full { background:rgba(58,125,68,0.88); }
 
 /* Action buttons */
 .recipe-card-actions { position:absolute; top:8px; right:8px; display:flex; gap:5px; }
@@ -671,7 +678,9 @@ select.input-field   { cursor:pointer; }
   border:1px solid var(--border); box-shadow:var(--shadow-xs);
 }
 .filter-row-group  { display:flex; align-items:center; gap:var(--space-2); flex-wrap:wrap; }
+.filter-row-group.stacked { flex-direction:column; align-items:flex-start; gap:6px; }
 .filter-group-label { font-size:0.6875rem; font-weight:600; color:var(--ink-3); text-transform:uppercase; letter-spacing:0.07em; white-space:nowrap; }
+.filter-group-hint { font-size:0.7rem; color:var(--ink-4); line-height:1.4; margin:0; }
 .filter-pill-group { display:flex; gap:6px; flex-wrap:wrap; }
 .filter-pill {
   padding:4px 12px; border-radius:99px; border:1.5px solid var(--border);
@@ -680,6 +689,29 @@ select.input-field   { cursor:pointer; }
 }
 .filter-pill:hover  { border-color:var(--brand); color:var(--brand); background:var(--brand-pale); }
 .filter-pill.active { background:var(--brand); border-color:var(--brand); color:#fff; }
+
+.ingredient-chip-input {
+  display:flex; flex-wrap:wrap; align-items:center; gap:6px;
+  width:100%; padding:8px 10px; background:var(--surface);
+  border:1px solid var(--border); border-radius:var(--r-md);
+}
+.ingredient-chip-input:focus-within { border-color:var(--brand); }
+.ingredient-chip {
+  display:inline-flex; align-items:center; gap:5px;
+  background:var(--brand-pale2); color:var(--brand);
+  font-size:0.75rem; font-weight:600; padding:4px 6px 4px 10px;
+  border-radius:99px; white-space:nowrap;
+}
+.ingredient-chip button {
+  background:none; border:none; color:inherit; cursor:pointer;
+  display:flex; align-items:center; padding:2px; border-radius:50%; opacity:0.7;
+}
+.ingredient-chip button:hover { opacity:1; background:rgba(184,92,56,0.15); }
+.ingredient-chip-input input {
+  flex:1; min-width:120px; border:none; outline:none; background:none;
+  font-size:0.8125rem; color:var(--ink); padding:4px 2px;
+}
+.ingredient-chip-input input::placeholder { color:var(--ink-4); }
 
 .discover-results-row {
   display:flex; align-items:center; justify-content:space-between;
